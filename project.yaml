@@ -1,0 +1,17 @@
+# Card metadata consumed by https://amishchadha.com
+name: SwapCell
+slug: swapcell
+area: Mobility and Logistics
+status: concept          # concept | design | prototype | tested | released
+shortlisted: false
+pitch: >-
+  Open-standard swappable battery pack and wall dock for e-bikes, scooters and cargo trikes, with a defined connector, CAN-based BMS protocol and state-of-health logging.
+problem: >-
+  Every light electric vehicle brand uses its own battery, so fleets cannot share packs or chargers and batteries are scrapped early.
+budget_usd: 700
+difficulty: 4  # 1 easiest, 5 hardest
+hero_image: media/hero.png
+licenses:
+  hardware: CERN-OHL-S-2.0
+  software: MIT
+tags: [mobility-and-logistics, open-hardware, cern-ohl-s]

@@ -1,0 +1,8 @@
+item,qty,spec,supplier,unit_cost_usd,make_buy,notes
+18650 or 21700 cells in a 48 V 10 Ah configuration,,,,,,
+Open-source BMS with CAN,,,,,,
+Printed or molded pack housing,,,,,,
+Blind-mate power connector,,,,,,
+Dock charger 5 A,,,,,,
+Latch mechanism,,,,,,
+ESP32 dock controller,,,,,,
