@@ -6,6 +6,10 @@
 
 Open-standard swappable battery pack and wall dock for e-bikes, scooters and cargo trikes, with a defined connector, CAN-based BMS protocol and state-of-health logging.
 
+![SwapCell concept](media/hero.png)
+
+[Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [Review note](docs/REVIEW.md)
+
 ## Problem
 
 Every light electric vehicle brand uses its own battery, so fleets cannot share packs or chargers and batteries are scrapped early.
