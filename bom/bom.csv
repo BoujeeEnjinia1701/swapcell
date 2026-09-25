@@ -1,14 +1,15 @@
 item,qty,spec,supplier,unit_cost_usd,make_buy,notes
-1 Pack housing tray,1,"Folded 1.5 mm aluminium, open front, flame-retardant liner",Local sheet-metal shop,25.00,make,Indicative price; material choice proposed awaiting Amish
-2 Lithium-ion cell,26,"21700, about 5.0 Ah, 3.6 V nominal, 20 A or more continuous (high-power 5 Ah class); 13S2P",Authorized cell distributor,4.50,buy,Indicative price; new matched cells only
-3 BMS board with CAN,1,"Open-source 13S BMS, CAN 2.0B, balancing, 30 A FETs, pre-charge, flash log",Open-source BMS project or distributor,120.00,buy,Indicative price; assembled board
-4 Pack lid,1,"3D-printed flame-retardant polymer (UL 94 V-0 grade), with gasket",Self,12.00,make,Material cost only
-"5 Blind-mate plug, pack side",1,"Keyed shroud, 2 x 40 A power plus 6 signal contacts, sequenced lengths",Connector distributor,25.00,buy,Indicative price; connector family open question
-6 Carry handle,1,"Moulded or printed loop, 25 mm grip clearance",Self,6.00,make,Material cost only
-7 Latch pawl,1,"Spring-loaded steel pawl with thumb release",Self and hardware store,10.00,make,Indicative price
-8 Wall dock cradle,1,"Aluminium back plate, printed cradle shelf and side guides, latch catch",Self,30.00,make,Material cost only
-"9 Blind-mate receptacle, dock side",1,"Mating half on a floating mount, +/-3 mm and +/-2 degrees",Connector distributor,30.00,buy,Indicative price; replaceable wear part
-10 Dock charger,1,"Certified 54.6 V 5 A CC-CV lithium-ion charger, 100 to 240 V AC input",Electronics distributor,60.00,buy,Indicative price; certified unit only
-11 Dock controller,1,"ESP32 board, CAN transceiver, DC relay, current sensor, microSD",Electronics distributor,25.00,buy,Indicative price
-12 Fuses and pack wiring,1,"40 A main fuse, pre-charge resistor, fuse wire, nickel strip, cell holders, 10 AWG silicone wire, fish paper, thermistors",Electronics distributor,40.00,buy,Indicative price; not modelled
-13 Seals and hardware,1,"Gaskets, foam, thermal pads, fasteners",Hardware store,15.00,buy,Indicative price; not modelled
+1 Pack housing tray,1,"Folded 1.5 mm 5052 aluminium, open front, riveted latch doubler, flame-retardant liner",Local sheet-metal shop or online sheet-metal service,30.00,make,Estimate for one-off folding; about 0.40 kg (SWC-CAL-001)
+2 Lithium-ion cell,26,"21700, 5.0 Ah nominal (4.85 Ah minimum), 3.6 V, 25 A or more continuous; 13S2P; new and matched",Authorized cell distributor,5.50,buy,Small-quantity estimate; model chosen at supplier selection
+3 BMS board with CAN,1,"Open-source 13S BMS, CAN 2.0B, balancing, 30 A FETs, pre-charge, flash log, sleep current 100 uA or less, INTERLOCK wake comparator",Open-source BMS project or electronics distributor (assembled board),120.00,buy,Estimate; must support interface v0.3 wake and charge-discharge mode
+4 Pack lid,1,"3D-printed flame-retardant polymer (UL 94 V-0 grade), 3 mm, with gasket groove",Self (filament from a 3D-printing supplier),12.00,make,Material cost only
+"5 Blind-mate plug, pack side",1,"Custom keyed shroud with 2 x 40 A power contacts and 6 potted signal contacts, sequenced lengths",Connector distributor (contacts) and self (shroud),30.00,buy,Estimate; connector family proposed awaiting Amish
+6 Carry handle,1,"Printed or moulded loop, 25 mm grip clearance",Self,6.00,make,Material cost only
+7 Latch pawl,1,"Spring-loaded steel pawl 36 mm wide, 4 mm tooth, thumb release; proof load 1.72 kN (class V1)",Self and hardware store (spring steel and spring),12.00,make,Estimate; sized in SWC-CAL-001
+8 Wall dock cradle,1,"Aluminium back plate, printed cradle shelf and side guides, latch catch",Self and local metal supplier,30.00,make,Material cost only
+"9 Blind-mate receptacle, dock side",1,"Mating half on a floating mount, +/-3 mm and +/-2 degrees, 10 kOhm INTERLOCK coding resistor",Connector distributor (contacts) and self (mount),30.00,buy,Estimate; replaceable wear part
+10 Dock charger,1,"Certified 54.6 V 5 A CC-CV lithium-ion charger, 100 to 240 V AC input, adjustable to 53.3 V for fleet mode",Electronics distributor or e-bike parts supplier,60.00,buy,Estimate; certified unit only
+11 Dock controller,1,"ESP32 board, CAN transceiver, DC relay, current sensor, microSD",Electronics distributor,25.00,buy,Estimate
+12 Fuses and pack wiring,1,"40 A main fuse, pre-charge resistor, fuse wire, nickel strip, cell holders, 10 AWG silicone wire, fish paper, thermistors",Electronics distributor,40.00,buy,Estimate; not modelled
+13 Seals and hardware,1,"Gaskets, foam, thermal pads, blind rivets, fasteners",Hardware store,15.00,buy,Estimate; not modelled
+14 Wake button and label,1,"Sealed momentary switch (IP67 class) on the lid for manual wake, interface version label",Electronics distributor,6.00,buy,Estimate; interface v0.3 wake item; not modelled

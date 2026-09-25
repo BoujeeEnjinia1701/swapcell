@@ -3,9 +3,9 @@ doc_id: SWC-PRB-001
 title: SwapCell problem statement
 project: SwapCell
 doc_type: Problem statement
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-09-24'
+date: '2026-09-25'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,6 +17,10 @@ revisions:
   date: '2026-09-24'
   author: Amish Chadha
   change: Populate to TRL 2 (users, context, constraints, out of scope, prior work)
+- version: "0.3"
+  date: '2026-09-25'
+  author: Amish Chadha
+  change: TRL 3. Record Amish's 2026-09-25 decisions (SWC-DDR-001); dependents and needs updated for interface v0.3; budget scope
 ---
 
 # SwapCell problem statement
@@ -33,7 +37,7 @@ E-bikes, e-scooters and cargo trikes mostly use 36 V or 48 V lithium-ion packs o
 - **Repair is locked out.** Independent repair shops cannot diagnose a pack whose BMS speaks a closed protocol, and a replacement from the original brand may cost more than the vehicle is worth.
 - **Small builders have no target.** An open vehicle design (for example the SunSpoke e-bike kit or the WaterWalker assist in this portfolio) has no common pack to design around, so each project reinvents the battery.
 
-SwapCell proposes an open, documented interface: one pack envelope, one blind-mate connector with a published pinout, one CAN message set, and a wall dock that charges and reads any conforming pack. The interface definition matters more than any single pack build, because other designs in the portfolio (SunSpoke, PowerBox, FieldCell, WaterWalker) plan to use it.
+SwapCell proposes an open, documented interface: one pack envelope, one blind-mate connector with a published pinout, one CAN message set, and a wall dock that charges and reads any conforming pack. The interface definition matters more than any single pack build, because other designs in the portfolio (PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule, FieldCell and others) plan to use it. Their TRL 2 reviews raised three needs the v0.2 interface did not meet: waking a pack from a host that has no CAN or no wake supply, running loads while charging, and holding a pack in a vehicle under vibration. Amish approved adding all three on 2026-09-25; they are SwapCell interface v0.3 (SWC-PRC-001 v0.3, SWC-DDR-001).
 
 ## Users and context
 
@@ -43,11 +47,11 @@ SwapCell proposes an open, documented interface: one pack envelope, one blind-ma
 | Rural e-bike or cargo-trike user | Carry a spare pack; charge from a small solar system or a shared village dock; repair locally | Unreliable grid, long distances, heat and dust |
 | Repair shop or community workshop | Read pack history, find a weak cell group, replace cells and return the pack to service | Workbench with a dock and a laptop |
 | Open hardware builder | A pack and interface to design a vehicle or power product around | Makerspace or small workshop |
-| Portfolio integrator (SunSpoke, PowerBox, FieldCell, WaterWalker) | A stable mechanical envelope, pinout and message set to design to now | Paper design at TRL 2 and 3 |
+| Portfolio integrator (PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule, FieldCell) | A stable mechanical envelope, pinout and message set to design to now, including wake without CAN, charge while discharging, and a vehicle latch rating | Paper design at TRL 2 and 3 |
 
 ## Constraints
 
-- Garage-buildable prototype of one pack and one dock for about $700 USD (budget in `project.yaml`), using commodity cells, an open-source BMS and off-the-shelf connectors and chargers.
+- Garage-buildable prototype of one pack and one dock for about $700 USD (budget in `project.yaml`, kept by Amish on 2026-09-25), using commodity cells, an open-source BMS and off-the-shelf connectors and chargers. A SwapCell pack is priced once, in this repo, and excluded from the budgets of dependent kits.
 - Lithium-ion cells are hazardous. Assembly needs a spot welder, cells from a reputable distributor (no recycled or unknown-grade cells for the reference pack), and a fire-safe space for building, charging and testing.
 - The prototype uses a certified off-the-shelf mains charger. No custom mains-voltage electronics are built.
 - Electrically compatible with common 48 V light-vehicle motor controllers (typical low-voltage cutoff 39 to 42 V, maximum input about 60 V).
@@ -75,5 +79,5 @@ SwapCell proposes an open, documented interface: one pack envelope, one blind-ma
 
 ## Open questions
 
-- Which user group to design with first: a delivery fleet, a rural e-bike cooperative, or a repair workshop? Proposed: a repair workshop, because it exercises the data and repair features and needs the fewest packs. Awaiting Amish.
-- Build the message set as a SwapCell profile, or adopt EnergyBus directly? See SWC-PRC-001. Proposed, awaiting Amish.
+- Which user group to design with first: a delivery fleet, a rural e-bike cooperative, or a repair workshop? Still open: the portfolio picks co-design partners per area later. Proposed, awaiting Amish.
+- Message set: decided by Amish, 2026-09-25: an open SwapCell profile with an EnergyBus gateway study (SWC-DDR-001 item 4).

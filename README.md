@@ -1,8 +1,8 @@
 # SwapCell
 
-![TRL 2](https://img.shields.io/badge/TRL-2%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
+![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827)
 
-**Area:** Mobility and Logistics · **TRL:** 2 of 9 (concept formulated) · **Prototype budget:** about $700 USD · **Difficulty:** 4 of 5
+**Area:** Mobility and Logistics · **TRL:** 3 of 9 (proof of concept on paper) · **Prototype budget:** about $700 USD · **Difficulty:** 4 of 5
 
 Open-standard swappable battery pack and wall dock for e-bikes, scooters and cargo trikes, with a defined connector, CAN-based BMS protocol and state-of-health logging.
 
@@ -18,23 +18,25 @@ Every light electric vehicle brand uses its own battery, so fleets cannot share 
 
 Open-standard swappable battery pack and wall dock for e-bikes, scooters and cargo trikes, with a defined connector, CAN-based BMS protocol and state-of-health logging.
 
-Full design precis: [docs/02-concept.md](docs/02-concept.md)
+The core deliverable is the open **SwapCell interface v0.3**: envelope, blind-mate pinout with a coded interlock, CAN message set with a full bit layout, wake for hosts without CAN, a charge-while-discharging mode and a vehicle latch rating. Other portfolio designs build to it.
+
+Full design precis: [docs/02-concept.md](docs/02-concept.md) · Sizing note: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md) · General arrangement: [cad/drawings/SWC-DWG-002.pdf](cad/drawings/SWC-DWG-002.pdf)
 
 ## Key components
 
-- 18650 or 21700 cells in a 48 V 10 Ah configuration
+- 26 x 21700 cells in 13S2P: 46.8 V, 10 Ah, about 468 Wh, about 2.85 kg
 - Open-source BMS with CAN
-- Printed or molded pack housing
-- Blind-mate power connector
-- Dock charger 5 A
-- Latch mechanism
+- Folded aluminium tray with a printed flame-retardant lid
+- Blind-mate power and signal connector with a coded interlock
+- Certified 5 A dock charger
+- Latch pawl rated for vehicle class V1
 - ESP32 dock controller
 
-The working bill of materials is in [bom/bom.csv](bom/bom.csv).
+The priced bill of materials is in [bom/bom.csv](bom/bom.csv): about $559 for one pack and one dock, within the $700 budget.
 
 ## Safety
 
-> Contains a lithium battery pack. Use a BMS with cell-level protection, fuse the pack, and charge on a non-combustible surface. Build and test packs inside a fireproof enclosure.
+> Contains a 468 Wh lithium-ion battery pack at up to 54.6 V DC. Use a BMS with cell-level protection, fuse the pack, and charge on a non-combustible surface. Build and test packs only inside a fireproof enclosure, never unattended. This is a paper design at TRL 3; nothing here is certified.
 
 ## Repository layout
 
