@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use or build on this design, please cite it as below."
+type: software
+title: "SwapCell"
+abstract: "Open-standard swappable battery pack and wall dock for e-bikes, scooters and cargo trikes, with a defined connector, CAN-based BMS protocol and state-of-health logging."
+authors:
+  - given-names: Amish
+    family-names: Chadha
+    affiliation: Design Molecule
+repository-code: "https://github.com/BoujeeEnjinia1701/swapcell"
+url: "https://designmolecule.com"
+license:
+  - CERN-OHL-S-2.0
+  - MIT
+keywords:
+  - open-hardware
+  - mobility-and-logistics
