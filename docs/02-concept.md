@@ -3,7 +3,7 @@ doc_id: SWC-PRC-001
 title: SwapCell design precis
 project: SwapCell
 doc_type: Design precis
-version: "0.3"
+version: "0.4"
 status: Draft
 date: '2026-09-25'
 author: Amish Chadha
@@ -21,11 +21,15 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: TRL 3. Issue SwapCell interface v0.3 (wake item W, charge-discharge item C, latch class V1 item V, full CAN bit layout); record Amish's decisions (SWC-DDR-001); numbers checked against SWC-CAL-001
+- version: "0.4"
+  date: '2026-09-25'
+  author: Amish Chadha
+  change: Recommendations accepted by Amish (DDR-002)
 ---
 
 # SwapCell design precis
 
-SwapCell is a 48 V, 10 Ah lithium-ion pack of 26 cells in a 340 x 90 x 80 mm body that drops, connector first, into a wall dock or a vehicle mount, mates through a floating blind-mate connector, and talks to whatever it is plugged into over CAN. The pack carries its own state-of-health log, so any dock can read its history. The sizing note SWC-CAL-001 confirms that the 13S2P pack of 21700 cells gives about 468 Wh at about 2.85 kg, charges in about 2.3 h on a 5 A dock, and costs about $414 in prototype parts, with the dock adding about $145. Two requirements remain at risk: cell temperature at 20 A in an enclosed mount (R3) and cycle life (R9).
+SwapCell is a 48 V, 10 Ah lithium-ion pack of 26 cells in a 340 x 90 x 80 mm body that drops, connector first, into a wall dock or a vehicle mount, mates through a floating blind-mate connector, and talks to whatever it is plugged into over CAN. The pack carries its own state-of-health log, so any dock can read its history. The sizing note SWC-CAL-001 confirms that the 13S2P pack of 21700 cells gives about 468 Wh at about 2.85 kg, charges in about 2.3 h on a 5 A dock, and costs about $414 in prototype parts, with the dock adding about $145. Cycle life (R9) remains at risk. Cell temperature at 20 A (R3) is handled by the temperature derating rule Amish chose on 2026-09-25 (SWC-DDR-002).
 
 The interface (envelope, pinout and message set) is the core deliverable of this precis. This version issues **SwapCell interface v0.3**, which adds three items Amish approved on 2026-09-25: a wake method for hosts without CAN or a wake supply (item W), a charge-while-discharging mode (item C) and a latch vibration rating for vehicles (item V). PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule, FieldCell and other designs build to it.
 
@@ -54,7 +58,7 @@ The interface (envelope, pinout and message set) is the core deliverable of this
 | 2 | Cell block | 26 x 21700 cells, 13S2P, 5.0 Ah nominal (4.85 Ah minimum) and 3.6 V each, 25 A continuous rating | Cells in holders with fuse-wire links. Decided by Amish, 2026-09-25 |
 | 3 | BMS board | Open-source 13S BMS with CAN, balancing, 30 A continuous FETs, pre-charge, flash log, 100 µA sleep with INTERLOCK wake | Stands beside the cells on its long edge |
 | 4 | Pack lid | Flame-retardant polymer (UL 94 V-0 grade), gasketed, flush sealed wake button | Removable for repair |
-| 5 | Blind-mate plug, pack side | 2 power contacts (40 A) plus 6 potted signal contacts in a keyed shroud | Fixed to the pack; family proposed, awaiting Amish |
+| 5 | Blind-mate plug, pack side | 2 power contacts (40 A) plus 6 potted signal contacts in a keyed shroud | Fixed to the pack; custom keyed shroud with commercial contacts, decided 2026-09-25 (SWC-DDR-002) |
 | 6 | Carry handle | Moulded loop over the top end, 25 mm grip clearance | Sized for a gloved hand |
 | 7 | Latch pawl | Spring-loaded steel pawl on the back face, thumb release under the handle, 1.72 kN proof load | Same catch geometry on dock and vehicle |
 | 8 | Wall dock cradle | Back plate, cradle shelf with connector pocket, side guides and latch catch | Wall-mounted at 0.8 to 1.2 m |
@@ -75,7 +79,7 @@ All values come from SWC-CAL-001 (`docs/04-calcs/sizing.py`) and are paper estim
 | Capacity and energy | 10.0 Ah and about 466 Wh at 0.2C; 9.7 Ah and 452 Wh at cell minimum | 2 x 5.0 Ah less sag | R2 **at risk** at cell minimum |
 | Pack resistance | about 110 mΩ | 13 groups x 6 mΩ, plus 32 mΩ for links, fuse wires, FETs, shunt and connector | |
 | Cell current | 10 A continuous, 17.5 A peak | 20 A and 35 A over 2 cells; rated 25 A | R3 electrically met |
-| Cell hot spot, 20 A full discharge | about 51 °C in open air, 63 °C enclosed, 71 °C from 45 °C ambient | Lumped model, UA 1.17 W/K, τ 32 min | R3 **at risk** |
+| Cell hot spot, 20 A full discharge | about 51 °C in open air, 63 °C enclosed, 71 °C from 45 °C ambient | Lumped model, UA 1.17 W/K, τ 32 min | R3 met on paper with derating (SWC-DDR-002) |
 | Heat at 10 A (typical e-bike) | about 11 W | I²R | |
 | Voltage sag | about 2.2 V at 20 A, 3.9 V at 35 A | I x 110 mΩ | |
 | Mass | about 2.85 kg (6.3 lb) | Cells 1.79 kg, tray 0.40, lid 0.11, interconnects 0.18, BMS 0.12, plug 0.06, handle and latch 0.10, seals and button 0.08 | R5 met |
@@ -97,7 +101,7 @@ All values come from SWC-CAL-001 (`docs/04-calcs/sizing.py`) and are paper estim
 
 ## Interface definition
 
-This section is the **SwapCell interface, version 0.3** (draft, 2026-09-25). Amish approved v0.2 as written and the three v0.3 additions on 2026-09-25 (SWC-DDR-001). The specific values inside the additions (marked †) are engineering proposals awaiting his confirmation. Other portfolio designs build to this section, cite it as "SwapCell interface v0.3", and flag any conflict to this repo rather than change it locally. Changes need Amish's approval.
+This section is the **SwapCell interface, version 0.3** (draft, 2026-09-25). Amish approved v0.2 as written and the three v0.3 additions on 2026-09-25 (SWC-DDR-001). The specific values inside the additions (marked †) were engineering proposals; Amish confirmed them on 2026-09-25 (SWC-DDR-002). Other portfolio designs build to this section, cite it as "SwapCell interface v0.3", and flag any conflict to this repo rather than change it locally. Changes need Amish's approval.
 
 *Table 1. Changes from v0.2.*
 
@@ -121,7 +125,7 @@ This section is the **SwapCell interface, version 0.3** (draft, 2026-09-25). Ami
 | Wake button | Flush in the lid (front) face, 12 mm, 70 mm below the top end | New in v0.3; inside the envelope |
 | Orientation | Any; the latch, not gravity, retains the pack in a vehicle | Dock uses gravity to seat |
 | Mass limit for receivers | 3.5 kg pack | R5 |
-| Airflow | Vehicle receivers leave the back and lid faces open to air where possible | R3 is at risk in an enclosed mount |
+| Airflow | Vehicle receivers leave the back and lid faces open to air where possible | The full 20 A rating applies in an open-air mount; enclosed, the pack derates to about 18.5 A (R3) |
 
 **Latch classes (item V).** *Class D* (gravity dock): the pack seats under its own weight; the latch only stops it being knocked out. *Class V1* (vehicle): the receiver and the pack latch together hold the pack with no latch release and no power-contact interruption of 1 ms or longer under the sinusoidal vibration profile of UN 38.3 test T3 (7 to 200 Hz, peak 8 g, three axes) and 25 g†, 11 ms half-sine shocks, three in each direction on each axis. The receiver preloads the pack against its end stop with at least 330 N† through an over-centre lever (ratio 6.6 or more, hand force 50 N or less), so the contacts do not chatter at 8 g; the lever has a detent so it cannot open under vibration. The pack latch withstands a static 1.72 kN proof load along the insertion axis without permanent set. Verification is by test at TRL 4, which is on hold.
 
@@ -209,6 +213,7 @@ CAN 2.0B controllers at 250 kbit/s, 11-bit identifiers. Each pack has a node num
 - **Enable.** The pack enables any output only with a valid INTERLOCK loop. Discharge needs a heartbeat requesting mode 2 or 4; charge needs a heartbeat from a dock, station or vehicle requesting mode 3 or 4. A heartbeat is valid while its counter advances at least every 300 ms.
 - **Legacy mode (decided).** If INTERLOCK is valid and no heartbeat arrives within 2 s, the pack enables discharge only, limited to 15 A, and never charges or enters mode 4.
 - **Charge-discharge mode (item C).** In mode 4 both FETs are on and current may flow either way. The host keeps net charge current at or below the lower of its own charge limit and the pack's allowed charge current, and the pack terminal voltage at or below the maximum charge voltage. The pack enforces its limits: on a charge-side fault (charge overcurrent, a cell near overvoltage, or cell temperature below 0 °C or above 45 °C) it sets allowed charge current to zero, warns, and after 1 s opens only the charge FET, so discharge continues through that FET's body diode and the load stays powered. Mode changes between 2, 3 and 4 never open the output.
+- **Temperature derating (R3, decided 2026-09-25).** PACK_LIMITS allows the full 20 A continuous discharge while the hottest cell is at or below 50 °C, then lowers the allowed discharge current linearly to 5 A at 60 °C. The 35 A, 10 s peak is allowed only below 50 °C. Hosts must follow PACK_LIMITS; a legacy host is already held to 15 A and gets the same ramp. The pack sustains about 18.5 A in an enclosed mount from 25 °C and about 14 A in open air from 45 °C (SWC-CAL-001 v0.2).
 - **Warn, then derate.** For a non-fatal fault the pack first warns and ramps its current limit down over about 5 s, so a rider is not left without power mid-junction. It opens immediately only for short circuit, cell overvoltage or over-temperature beyond the hard limit.
 - **Removal.** When INTERLOCK opens (it breaks first on removal), the pack opens its output within 1 ms, before the power contacts separate.
 
@@ -230,7 +235,9 @@ All of these were decided by Amish on 2026-09-25 (go with recommendation), SWC-D
 - **Fleet charge mode.** The dock may set 4.1 V per cell (53.3 V) for longer life at about 10 % less energy.
 - **Interface governance.** This section is the versioned interface; Amish approves changes.
 - **Solar DC dock variant.** A second dock with a 48 V DC input (via PowerBox) follows the mains dock; not designed at TRL 3.
-- **Connector family (proposed, awaiting Amish).** Options: a commercial blind-mate power and signal connector, or a custom printed keyed shroud around commercial high-current socket contacts and potted spring signal contacts. Recommendation: the custom shroud for the prototype, because it keeps the published geometry independent of one vendor; the contacts are bought and replaceable. R8 and R10 depend on this choice.
+- **Connector family (decided 2026-09-25, SWC-DDR-002).** A custom printed keyed shroud around commercial high-current socket contacts and potted spring signal contacts, rather than a commercial blind-mate connector, because it keeps the published geometry independent of one vendor; the contacts are bought and replaceable. The specific contact parts are chosen at supplier selection. R8 and R10 depend on them and are verified at TRL 4, which is on hold.
+- **R3 thermal rating (decided 2026-09-25, SWC-DDR-002).** Keep 20 A continuous at 25 °C with the temperature derating rule above, rather than labelling the pack 15 A.
+- **Values inside items W, C and V (confirmed 2026-09-25, SWC-DDR-002).** 10 kΩ coded INTERLOCK, 100 µA sleep limit, 25 g shock, 330 N receiver preload, and the charge-FET fallback on a charge-side fault.
 
 ![Exploded view](../media/exploded.png)
 
@@ -254,14 +261,12 @@ All of these were decided by Amish on 2026-09-25 (go with recommendation), SWC-D
 
 ## Open questions
 
-Items that remain open after SWC-DDR-001. None of them is TRL 4 work to be started now; TRL 4 is on hold by Amish's instruction.
+Items that remain open after SWC-DDR-002. None of them is TRL 4 work to be started now; TRL 4 is on hold by Amish's instruction.
 
-- **R3 thermal rating.** Keep 20 A continuous at 25 °C with temperature derating in PACK_LIMITS (recommended), or label the pack 15 A continuous? About 14 A holds 60 °C from 45 °C ambient. Proposed, awaiting Amish.
 - **Cell model (R9).** Which 5 Ah 21700 cell balances cycle life against current rating needs datasheet review against named cells; R9 stays at risk until then.
 - **LFP variant.** A 16S LFP pack (about 51 V nominal, up to 58.4 V) would be safer and longer lived but heavier. PACK_LIMITS already allows a different voltage window. No preference stated; awaiting Amish.
-- **Connector family.** Recommendation above; proposed, awaiting Amish.
-- **Values inside items W, C and V** (marked †): proposed, awaiting Amish's confirmation.
 - **EnergyBus mapping.** Needs the CiA 454 specification.
-- **First co-design partner.** Left open; the portfolio picks partners per area later.
+- **First co-design partner.** Left open; the portfolio picks partners per area later. Proposed, awaiting Amish.
+- **Build budget for a second pack.** Decided 2026-09-25 to settle it before any build (about $973 for two packs and one dock); on hold with TRL 4.
 
 Concept media: [blueprint sheet](../media/concept-blueprint.pdf), [interactive 3D model](../media/viewer.html).

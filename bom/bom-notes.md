@@ -12,6 +12,6 @@ Against the $700 budget in `project.yaml` (kept by Amish on 2026-09-25 for one p
 
 **Shared packs.** By Amish's 2026-09-25 portfolio rule, the SwapCell pack is priced here only. Dependent kits (PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule and others) exclude it from their budgets and cite this BOM.
 
-A second pack for a real swap demonstration would add about $414 (total about $973). That build budget is open and awaiting Amish, and only matters once TRL 4 is lifted.
+A second pack for a real swap demonstration would add about $414 (total about $973). Amish decided on 2026-09-25 (SWC-DDR-002) that this build budget is set before any build; it is on hold with TRL 4.
 
 Cells must be new, matched and bought from an authorized distributor. Do not substitute recycled or unknown-grade cells in the reference pack.

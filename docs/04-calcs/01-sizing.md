@@ -3,7 +3,7 @@ doc_id: SWC-CAL-001
 title: SwapCell sizing and interface v0.3 calculations
 project: SwapCell
 doc_type: Calculation note
-version: "0.1"
+version: "0.2"
 status: Draft
 date: '2026-09-25'
 author: Amish Chadha
@@ -13,11 +13,15 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: First TRL 3 sizing note (electrical, mass, thermal, charge, wake, charge-discharge, latch, connector, CAN, cost)
+- version: "0.2"
+  date: '2026-09-25'
+  author: Amish Chadha
+  change: Recommendations accepted by Amish (DDR-002)
 ---
 
 # SwapCell sizing and interface v0.3 calculations
 
-The 13S2P reference pack meets its voltage, charge time, mass, envelope, data and budget requirements on paper, and the three interface v0.3 additions are feasible with large margins. Two requirements stay **at risk**: R3 (cells reach about 51 °C in open air at 20 A but about 63 °C in an enclosed mount, and 20 A cannot be held from 45 °C ambient) and R9 (cycle life). R2 is at risk only at the datasheet minimum cell capacity. No requirement is shown to be not met. Connector, sealing, protections and latch retention (R7, R8, R10, R11, R15) cannot be verified until hardware exists, which is TRL 4 work and on hold by Amish's instruction.
+The 13S2P reference pack meets its voltage, charge time, mass, envelope, data and budget requirements on paper, and the three interface v0.3 additions are feasible with large margins. R3 is now met on paper as restated by Amish's decision of 2026-09-25 (SWC-DDR-002): 20 A from 25 °C in an open-air mount, with temperature derating in PACK_LIMITS elsewhere (about 18.5 A enclosed, about 14.0 A from 45 °C ambient). R9 (cycle life) stays **at risk**, and R2 is at risk only at the datasheet minimum cell capacity. No requirement is shown to be not met. Connector, sealing, protections and latch retention (R7, R8, R10, R11, R15) cannot be verified until hardware exists, which is TRL 4 work and on hold by Amish's instruction.
 
 Every number in this note is printed by `docs/04-calcs/sizing.py` (run from the repo root: `python docs/04-calcs/sizing.py`), which also writes `docs/04-calcs/results.csv`. All values are first-principles estimates; nothing here is measured.
 
@@ -39,8 +43,8 @@ Every number in this note is printed by `docs/04-calcs/sizing.py` (run from the 
 | Cell core to tray | 0.10 K/W | Holders and thermal pads |
 | Charger | 5 A CC-CV, 90 % efficient; CC to 85 %, then 0.6 h CV | Certified unit (decided) |
 | Cell charge efficiency, motor and controller efficiency | 95 %, 80 % | Typical |
-| Contact insertion forces | 12 N per power contact, 1.5 N per signal contact, 8 N latch detent | Assumed until the connector family is chosen |
-| Vibration and shock for latch class V1 | 8 g peak sine; 25 g, 11 ms half-sine | UN 38.3 test T3 peak for batteries under 12 kg; 25 g is a proposed curb-strike level (SWC-DDR-001 item 19) |
+| Contact insertion forces | 12 N per power contact, 1.5 N per signal contact, 8 N latch detent | Assumed until the contact parts are chosen (family decided: custom keyed shroud, SWC-DDR-002) |
+| Vibration and shock for latch class V1 | 8 g peak sine; 25 g, 11 ms half-sine | UN 38.3 test T3 peak for batteries under 12 kg; 25 g curb-strike level, decided by Amish 2026-09-25 (SWC-DDR-002) |
 | Receiver design mass | 3.5 kg | R5 limit, not the 2.85 kg pack |
 | Sleep current | 100 µA | Target for a BMS asleep with the INTERLOCK comparator armed |
 | INTERLOCK sensing | 100 kΩ pull-up from a 3.3 V sleep rail; 10 kΩ coding resistor in the receiver | Interface v0.3 item W |
@@ -85,7 +89,9 @@ A lumped model with heat loss replaces the TRL 2 adiabatic estimate. The pack he
 | Base resistance | 44 W | 51 °C | 63 °C | 71 °C |
 | Resistance x 1.25 | 52 W | 56 °C | 70 °C | 76 °C |
 
-R3 is met in open air from 25 °C with 4 to 9 K margin, but fails in an enclosed vehicle mount and from 45 °C ambient. The continuous current that holds 60 °C from 45 °C in open air is about 14.0 A. At a typical e-bike 10 A the pack makes only about 11 W. R3 therefore stays **at risk**. The v0.3 behavior rules already derate PACK_LIMITS with temperature, so a hot pack lowers its own discharge limit. Recommendation (awaiting Amish, SWC-DDR-001 item 20): keep the 20 A rating at 25 °C with that derating, and require vehicle receivers to leave the back and lid faces open to air.
+The 20 A rating holds in open air from 25 °C with 4 to 9 K margin, but not in an enclosed vehicle mount or from 45 °C ambient. The continuous current that holds 60 °C over a full discharge is about 18.5 A in an enclosed (adiabatic) mount from 25 °C and about 14.0 A in open air from 45 °C. At a typical e-bike 10 A the pack makes only about 11 W.
+
+Amish decided on 2026-09-25 (SWC-DDR-002) to keep the 20 A rating at 25 °C with temperature derating, and R3 is restated to match: 20 A in an open-air mount from 25 °C, and in any other case the pack lowers the allowed discharge current in PACK_LIMITS so the cells stay below 60 °C. The derating rule in SWC-PRC-001 v0.4 (full current to 50 °C cell temperature, falling linearly to 5 A at 60 °C) brings the pack to about the currents above without host action. R3 as restated is **met on paper**; it still needs a load test, which is TRL 4 work and on hold.
 
 ## 5. Charging and energy chain (R4)
 
@@ -103,7 +109,7 @@ Per full cycle: about 547 Wh from grid or solar, 493 Wh out of the charger, 468 
 
 ## 7. Connector, CAN and log (R7, R10, R12)
 
-With the assumed contact forces, insertion needs about 41 N, inside the 50 N limit of R7, but the forces depend on the connector family that is not yet chosen. Two swaps a day for five years is 3,650 mating cycles, so a 5,000-cycle rating gives a margin of about 1.37.
+With the assumed contact forces, insertion needs about 41 N, inside the 50 N limit of R7, but the forces depend on the contact parts, which are not yet chosen inside the decided custom keyed shroud. Two swaps a day for five years is 3,650 mating cycles, so a 5,000-cycle rating gives a margin of about 1.37.
 
 The v0.3 message set sends about 34.1 frames per second per pack, a bus load of about 1.8 % at 250 kbit/s, or about 3.1 % with two packs on one host. The 2,000-record log is 64,000 bytes (62.5 KiB); at half the bus it transfers in about 10 s. R12 is met on paper; CSV export is dock software, not verified.
 
@@ -125,15 +131,15 @@ The total is within the $700 budget with about $141 margin. Cells are about $143
 
 | ID | Value (SWC-CAL-001) | Target | Status |
 | --- | --- | --- | --- |
-| R3 | 51 °C open air, 56 °C with higher resistance; 63 °C enclosed; 17.5 A per cell at 35 A | Cells below 60 °C from 25 °C at 20 A; 35 A for 10 s | At risk |
 | R9 | 300 to 500 cycles typical for the cell class; 4.1 V fleet mode adopted | 500 cycles to 80 %; SoH within 5 % | At risk |
 | R2 | 10.0 Ah and 466 Wh nominal; 9.7 Ah and 452 Wh at cell minimum | 10 Ah and 450 Wh at 0.2C | At risk |
 | R7 | About 41 N insertion with assumed contact forces | 10 s, one hand, 50 N or less | Not verifiable at TRL 3 |
 | R8 | Gasketed lid, potted pack-side contacts (design review only) | Pack IP65, dock IP54 | Not verifiable at TRL 3 |
-| R10 | 3,650 cycles in 5 years, margin 1.37; family not chosen | 5,000 cycles, ±3 mm, ±2°, 40 A | Not verifiable at TRL 3 |
+| R10 | 3,650 cycles in 5 years, margin 1.37; custom keyed shroud, contacts not yet chosen | 5,000 cycles, ±3 mm, ±2°, 40 A | Not verifiable at TRL 3 |
 | R11 | Short circuit 496 A, 123 A²s in 500 µs; pre-charge 460 ms; functions specified | Protections listed in R11 | Not verifiable at TRL 3 |
 | R15 | Proof load 1.72 kN; rivet bearing margin 4.2; lever ratio 6.6 | Class V1 vibration and shock, no release | Not verifiable at TRL 3 |
 | R1 | 46.8 V nominal, 39.0 to 54.6 V | 46.8 V; 39.0 to 54.6 V | Met |
+| R3 | 51 °C open air, 56 °C with higher resistance; derates to 18.5 A enclosed and 14.0 A from 45 °C; 17.5 A per cell at 35 A | Cells below 60 °C from 25 °C at 20 A in an open-air mount; derate elsewhere; 35 A for 10 s | Met (on paper) |
 | R4 | 2.3 h full; 1.6 h to 80 % | 3 h full; 2 h to 80 % | Met |
 | R5 | 2.85 kg | 3.5 kg or less | Met |
 | R6 | 340 x 90 x 80 mm; 393 mm overall | 400 mm or less overall | Met |

@@ -10,6 +10,45 @@ Open-standard swappable battery pack and wall dock for e-bikes, scooters and car
 
 [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [Review note](docs/REVIEW.md)
 
+## Concept rationale
+
+The cells inside almost every e-bike, scooter and cargo-trike battery are the same commodity 18650 or 21700 cells; what locks a pack to one brand is its housing, connector and data protocol. SwapCell therefore puts the effort into a published interface (envelope, pinout, coded interlock and CAN message set) rather than into a better cell. Once the interface is open, any fleet, workshop or small builder can make a pack or a receiver that works with everyone else's, and the pack's state-of-health log travels with it instead of living in a brand's cloud.
+
+The reference build uses parts a garage workshop can source and assemble: commodity cells, an open-source BMS, a folded aluminium tray, a printed lid and a certified off-the-shelf charger, so no custom mains electronics are needed. Keeping it open and buildable is what lets repair shops read and fix packs, and lets other open designs in this portfolio design around one battery instead of each inventing their own.
+
+## Burning platform
+
+Light electric vehicles are already the most electrified part of road transport: the IEA reports that about 8 % of the world's two- and three-wheelers were electric in 2023 and that electric models took 13 % of sales that year ([IEA, Global EV Outlook 2024](https://www.iea.org/reports/global-ev-outlook-2024/trends-in-other-light-duty-electric-vehicles)). In India, two-wheelers account for 70 to 80 % of all private vehicles ([NITI Aayog, draft Battery Swapping Policy, 2022](https://www.niti.gov.in/sites/default/files/2022-04/20220420_Battery_Swapping_Policy_Draft.pdf)), so how their batteries are charged, swapped and retired matters at national scale.
+
+Closed, mismatched batteries are also a safety problem. In New York City, lithium-ion batteries caused 268 fires in 2023, killing 18 people and injuring 150 ([City of New York, 2024](https://www.nyc.gov/mayors-office/news/2024/07/mayor-adams-takes-new-actions-prevent-deadly-lithium-ion-battery-fires-promote-safe-e-bike)). A documented interface with a protected, dead-until-seated output and readable health data is one way to make safe, shared packs the easy choice.
+
+## Where it could be used
+
+### By industry
+
+| Industry | Use |
+| --- | --- |
+| Last-mile delivery | Riders swap a flat pack for a charged one at a depot dock in seconds instead of waiting hours to charge |
+| Bike and scooter sharing | One pack and dock family across mixed vehicle types, with state-of-health data to retire packs on evidence |
+| Municipal, campus and industrial fleets | Shared packs for maintenance e-bikes, cargo trikes and site vehicles |
+| Independent repair and refurbishment | Read a pack's log, find a weak cell group, repair it and return it to service |
+| Agriculture and rural transport | Cargo trikes and e-bikes charged from a shared village dock or a small solar system |
+| Off-grid energy | Retired or spare packs reused as storage in open power products such as PowerBox |
+
+### By country or region
+
+| Country or region | Why it matters there |
+| --- | --- |
+| India | About 880,000 electric two-wheelers and over 580,000 electric three-wheelers were sold in 2023 ([IEA](https://www.iea.org/reports/global-ev-outlook-2024/trends-in-other-light-duty-electric-vehicles)), and the government has proposed a battery swapping policy for these segments ([NITI Aayog](https://www.niti.gov.in/sites/default/files/2022-04/20220420_Battery_Swapping_Policy_Draft.pdf)) |
+| China | Nearly 6 million electric two-wheelers were sold in 2023, the largest market in the world ([IEA](https://www.iea.org/reports/global-ev-outlook-2024/trends-in-other-light-duty-electric-vehicles)) |
+| Kenya | Newly registered motorcycles, many used as boda-boda taxis, were estimated at 1.5 million in 2018 and could pass 5 million by 2030 ([UNEP](https://www.unep.org/news-and-stories/story/kenya-gets-breather-courtesy-electric-motorcycles)) |
+| Viet Nam and Southeast Asia | Electric two-wheeler sales in Viet Nam were about 250,000 in 2023, and the electric share across ASEAN was only about 3 % ([IEA](https://www.iea.org/reports/global-ev-outlook-2024/trends-in-other-light-duty-electric-vehicles)), so shared packs could lower the entry cost |
+| United States (New York City) | 268 lithium-ion battery fires and 18 deaths in 2023, and a city pilot of public battery charging for delivery workers ([City of New York](https://www.nyc.gov/mayors-office/news/2024/07/mayor-adams-takes-new-actions-prevent-deadly-lithium-ion-battery-fires-promote-safe-e-bike)) |
+
+## What sparked the idea
+
+The starting point was India's draft Battery Swapping Policy, published by NITI Aayog in April 2022 ([PDF](https://www.niti.gov.in/sites/default/files/2022-04/20220420_Battery_Swapping_Policy_Draft.pdf)). It asks for swappable batteries for two- and three-wheelers to be BMS-enabled, calls for standards for cables, connectors and repeated coupling tests, and favors open communication protocols so that batteries, vehicles and stations from different makers can work together. Those are the pieces of a common pack that no single brand has an incentive to publish. SwapCell takes that list literally and writes the interface down in the open: envelope, connector pinout with a coded interlock, CAN message set and health log, sized for e-bikes and cargo trikes.
+
 ## Problem
 
 Every light electric vehicle brand uses its own battery, so fleets cannot share packs or chargers and batteries are scrapped early.
@@ -61,4 +100,4 @@ Controlled documents follow the portfolio [documentation standard](.kit/STANDARD
 - **Hardware** (CAD, drawings, BOM, electronics): [CERN-OHL-S v2](LICENSE)
 - **Software** (firmware, scripts, notebooks): [MIT](LICENSE-SOFTWARE)
 
-Part of the open hardware portfolio at [amishchadha.com](https://amishchadha.com).
+A project of the [Design Molecule](https://designmolecule.com) lab.

@@ -1,14 +1,14 @@
 id,value,target,status
 R1,"46.8 V nominal, 39.0 to 54.6 V",46.8 V; 39.0 to 54.6 V,Met
 R2,10.0 Ah and 466 Wh nominal; 9.7 Ah and 452 Wh at cell minimum,10 Ah and 450 Wh at 0.2C,At risk
-R3,"51 C base, 56 C with end-of-discharge R; 17.5 A per cell at 35 A",Below 60 C from 25 C at 20 A; 35 A for 10 s,At risk
+R3,"51 C base, 56 C with end-of-discharge R in open air; derates to 18.5 A enclosed and 14.0 A from 45 C; 17.5 A per cell at 35 A",Below 60 C from 25 C at 20 A in an open-air mount; derate elsewhere; 35 A for 10 s,Met (on paper)
 R4,2.3 h full; 1.6 h to 80 %,3 h full; 2 h to 80 %,Met
 R5,2.85 kg,3.5 kg or less,Met
 R6,340 x 90 x 80 mm; 393 mm overall,400 mm or less overall,Met
 R7,insertion about 41 N (assumed contact forces),"10 s, one hand, 50 N or less",Not verifiable at TRL 3
 R8,"Gasketed lid, potted pack-side contacts (design review only)","Pack IP65, dock IP54",Not verifiable at TRL 3
 R9,300 to 500 cycles typical; 4.1 V fleet mode adopted,500 cycles to 80 %; SoH within 5 %,At risk
-R10,"3650 cycles in 5 years, margin 1.37x; family not chosen","5,000 cycles, +/-3 mm, +/-2 deg, 40 A",Not verifiable at TRL 3
+R10,"3650 cycles in 5 years, margin 1.37x; custom keyed shroud, contacts not yet chosen","5,000 cycles, +/-3 mm, +/-2 deg, 40 A",Not verifiable at TRL 3
 R11,Short circuit 496 A; pre-charge 460 ms; functions specified,Protections listed in R11,Not verifiable at TRL 3
 R12,"Bus load 1.8 %; log 62.5 KiB, 10 s","CAN 250 kbit/s, 2,000 records, CSV export",Met (on paper)
 R13,Sleep drain 0.72 %/month; coded INTERLOCK 0.30 V window,Wake with no host supply; 1 %/month or less,Met (on paper)

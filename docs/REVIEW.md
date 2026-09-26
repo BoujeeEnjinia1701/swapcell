@@ -127,3 +127,44 @@ PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule, FieldCell and others should
 ### Recommended next step
 
 Amish reviews SWC-DDR-001 items 14 to 20 and the interface v0.3 section of SWC-PRC-001, then approves v0.3 for circulation to the dependent repos. **TRL 4 is on hold by Amish's instruction.** For the record only, TRL 4 would need: a chosen cell model and connector family, a BMS configuration that implements the v0.3 wake, charge-discharge and interlock rules, a pack built and charged in a fireproof enclosure, lab test reports (TST, `environment: lab`) for capacity, temperature at 20 A, protections and latch class V1, build-log entries, and a build budget decision.
+
+## Session 2026-09-25: recommendations accepted
+
+Amish's instruction (2026-09-25, in chat): "i accept all your recommendations, go with them across all repos." Every open item with a recommendation is now **Decided by Amish, 2026-09-25: go with recommendation**, recorded in `docs/decisions/0002-recommendations-accepted.md` (SWC-DDR-002 v0.1). TRL 4 remains on hold.
+
+### Decisions applied and what changed
+
+| Item (SWC-DDR-001 #) | Decision | Before | After |
+| --- | --- | --- | --- |
+| 20, R3 thermal rating | Keep 20 A at 25 °C with PACK_LIMITS temperature derating | R3 "20 A from 25 °C ambient", **at risk** (51 °C open air, 63 °C enclosed) | R3 restated: 20 A in an open-air mount from 25 °C; elsewhere derate (full to 50 °C cell temperature, linear to 5 A at 60 °C). Sustained current about 18.5 A enclosed, 14.0 A from 45 °C. **Met on paper** |
+| 17, connector family | Custom keyed shroud with commercial contacts | "Proposed, awaiting Amish" | Decided; contact parts chosen at supplier selection (TRL 4, on hold). No geometry change |
+| 19, values inside W, C, V | Confirmed as proposed | 10 kΩ, 100 µA, 25 g, 330 N, charge-FET fallback awaiting confirmation | Same values, confirmed |
+| 15, build budget | Keep $700 at TRL 3; set the build budget (about $973) before any build | Open | Decided, on hold with TRL 4. `budget_usd` unchanged at $700 |
+
+Files changed: SWC-PRC-001 v0.3 to v0.4 (derating rule, connector decision, confirmed values, open questions); SWC-REQ-001 v0.3 to v0.4 (R3 restated, R10 note, assumptions); SWC-CAL-001 v0.1 to v0.2 and `docs/04-calcs/sizing.py` (new enclosed derating current, R3 status, R10 value; `results.csv` regenerated); SWC-DDR-001 v0.1 to v0.2 (items 15, 17, 19 and 20 marked decided); `bom/bom.csv` item 5 note; `bom/bom-notes.md`; SWC-DWG-002 Rev P1 to P2 (notes for connector and R3 derating; geometry unchanged); `project.yaml` evidence list; `README.md` new sections "Concept rationale", "Burning platform", "Where it could be used" and "What sparked the idea". STEP, STL, drawing, concept media and all PDFs regenerated, with designmolecule.com in the footers.
+
+### Requirement status (SWC-CAL-001 v0.2)
+
+Not met: **none**. At risk: 2 (was 3). Not verifiable at TRL 3: 5. Met: 9 (four on paper only).
+
+| ID | Status | Value |
+| --- | --- | --- |
+| R2 | **At risk** | 10.0 Ah, 466 Wh nominal; 9.7 Ah, 452 Wh at the cell minimum |
+| R9 | **At risk** | 300 to 500 cycles typical; 4.1 V fleet mode is the mitigation |
+| R7, R8, R10, R11, R15 | Not verifiable at TRL 3 | Need hardware and test (TRL 4, on hold) |
+| R1, R4, R5, R6, R16 | Met | Unchanged; $559 of $700 |
+| R3, R12, R13, R14 | Met on paper | R3 51 °C open air (56 °C with higher resistance), derating elsewhere |
+
+### Still awaiting Amish
+
+1. First co-design partner (no recommendation; portfolio rule).
+2. LFP variant (no preference stated).
+3. EnergyBus gateway mapping (needs the CiA 454 specification; no recommendation).
+
+### Cross-repo actions
+
+None required. The interface stays v0.3 and the confirmed values match what dependent repos cite. For information only: PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule and FieldCell vehicle or station receivers keep the full 20 A only if they leave the back and lid faces of the pack open to air; in an enclosed mount the pack now derates itself to about 18.5 A.
+
+### TRL
+
+`trl: 3` and `trl_target: 3` unchanged. **TRL 4 remains on hold by Amish's instruction.** No build, test, purchase, PCB or firmware work was started.

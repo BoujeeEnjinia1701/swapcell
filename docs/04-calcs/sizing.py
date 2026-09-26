@@ -1,4 +1,4 @@
-"""SwapCell sizing calculations for SWC-CAL-001 (TRL 3).
+"""SwapCell sizing calculations for SWC-CAL-001 v0.2 (TRL 3).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Prints every number quoted in docs/04-calcs/01-sizing.md and writes
@@ -62,7 +62,7 @@ ETA_CELL_CHARGE = 0.95
 ETA_MOTOR = 0.80
 
 # Connector and latch
-POWER_CONTACT_N, SIGNAL_CONTACT_N, LATCH_DETENT_N = 12.0, 1.5, 8.0   # N, assumptions
+POWER_CONTACT_N, SIGNAL_CONTACT_N, LATCH_DETENT_N = 12.0, 1.5, 8.0   # N, assumptions until contact parts are chosen
 R5_MASS_LIMIT = 3.5          # kg, receivers design for this
 VIB_G, SHOCK_G, LATCH_SF = 8.0, 25.0, 2.0
 LEVER_FORCE_MAX = 50.0
@@ -179,6 +179,16 @@ def main():
         hot = 45 + q / UA * (1 - math.exp(-tt / tau_th)) + qc * R_INT
         lo, hi = (mid, hi) if hot < T_LIMIT else (lo, mid)
     say("current that holds 60 C from 45 C ambient", lo, "{:.1f}", "A")
+    i_hot45 = lo
+    # continuous current that holds 60 C in an enclosed (adiabatic) mount from 25 C, full discharge
+    lo, hi = 1.0, 20.0
+    for _ in range(60):
+        mid = (lo + hi) / 2
+        q = mid ** 2 * r_pack; qc = mid ** 2 * S * CELL["r_dc"] / P
+        hot = T_AMB + q * (ah / mid * 3600) / C + qc * R_INT
+        lo, hi = (mid, hi) if hot < T_LIMIT else (lo, mid)
+    say("current that holds 60 C enclosed from 25 C", lo, "{:.1f}", "A")
+    i_enclosed = lo
     say("heat at 10 A (e-bike)", 10.0 ** 2 * r_pack, "{:.0f}", "W")
 
     # ---------------- charging
@@ -279,8 +289,10 @@ def main():
         ("R1", f"{v_nom:.1f} V nominal, {v_min:.1f} to {v_max:.1f} V", "46.8 V; 39.0 to 54.6 V", st(True)),
         ("R2", f"{ah:.1f} Ah and {e_02c:.0f} Wh nominal; {ah_min:.1f} Ah and {e_02c_min:.0f} Wh at cell minimum",
          "10 Ah and 450 Wh at 0.2C", "At risk"),
-        ("R3", f"{rows_th[0]:.0f} C base, {rows_th[1]:.0f} C with end-of-discharge R; 17.5 A per cell at 35 A",
-         "Below 60 C from 25 C at 20 A; 35 A for 10 s", "At risk"),
+        ("R3", f"{rows_th[0]:.0f} C base, {rows_th[1]:.0f} C with end-of-discharge R in open air; derates to "
+               f"{i_enclosed:.1f} A enclosed and {i_hot45:.1f} A from 45 C; 17.5 A per cell at 35 A",
+         "Below 60 C from 25 C at 20 A in an open-air mount; derate elsewhere; 35 A for 10 s",
+         st(max(rows_th) < T_LIMIT) + " (on paper)"),
         ("R4", f"{t_cc + CV_HOURS:.1f} h full; {0.8 * ah / I_CHG:.1f} h to 80 %", "3 h full; 2 h to 80 %",
          st(t_cc + CV_HOURS <= 3 and 0.8 * ah / I_CHG <= 2)),
         ("R5", f"{mass:.2f} kg", "3.5 kg or less", st(mass <= 3.5)),
@@ -291,7 +303,7 @@ def main():
         ("R8", "Gasketed lid, potted pack-side contacts (design review only)", "Pack IP65, dock IP54",
          "Not verifiable at TRL 3"),
         ("R9", "300 to 500 cycles typical; 4.1 V fleet mode adopted", "500 cycles to 80 %; SoH within 5 %", "At risk"),
-        ("R10", f"{cycles:.0f} cycles in 5 years, margin {CONNECTOR_CYCLES / cycles:.2f}x; family not chosen",
+        ("R10", f"{cycles:.0f} cycles in 5 years, margin {CONNECTOR_CYCLES / cycles:.2f}x; custom keyed shroud, contacts not yet chosen",
          "5,000 cycles, +/-3 mm, +/-2 deg, 40 A", "Not verifiable at TRL 3"),
         ("R11", f"Short circuit {i_sc:.0f} A; pre-charge {4.6 * tau * 1000:.0f} ms; functions specified",
          "Protections listed in R11", "Not verifiable at TRL 3"),

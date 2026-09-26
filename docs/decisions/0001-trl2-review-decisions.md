@@ -3,7 +3,7 @@ doc_id: SWC-DDR-001
 title: SwapCell TRL 2 review decisions and interface v0.3
 project: SwapCell
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
 date: '2026-09-25'
 author: Amish Chadha
@@ -13,12 +13,16 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Record Amish's 2026-09-25 decisions on the TRL 2 review and issue SwapCell interface v0.3
+- version: "0.2"
+  date: '2026-09-25'
+  author: Amish Chadha
+  change: Recommendations accepted by Amish (DDR-002)
 ---
 
 # 0001: TRL 2 review decisions and interface v0.3
 
 - **Date:** 2026-09-25
-- **Status:** accepted (items 1 to 13); items 14 to 20 remain proposed, awaiting Amish
+- **Status:** accepted (items 1 to 13; items 15, 17, 19 and 20 accepted later on 2026-09-25 in SWC-DDR-002); items 14, 16 and 18 remain proposed, awaiting Amish
 
 ## Context
 
@@ -59,19 +63,19 @@ Two further approvals from the same instruction are recorded here:
 
 ### Items that remain open
 
-These had no recommendation, or the recommendation was to decide later, so they stay **Proposed, awaiting Amish**.
+These had no recommendation, or the recommendation was to decide later, so they stayed **Proposed, awaiting Amish** in v0.1. On 2026-09-25 Amish accepted all remaining recommendations (SWC-DDR-002); the status column below is updated. Items with no recommendation stay open.
 
 *Table 2. Open items.*
 
 | # | Item | Status |
 | --- | --- | --- |
 | 14 | First co-design partner (repair workshop, delivery fleet or rural e-bike cooperative) | Proposed, awaiting Amish. Portfolio rule: partners are chosen per area later |
-| 15 | Build budget for a second pack before any build (about $900 at TRL 2; about $973 for two packs and one dock with the TRL 3 prices) | Proposed, awaiting Amish. Not needed at TRL 3; relevant only when TRL 4 is lifted |
+| 15 | Build budget for a second pack before any build (about $900 at TRL 2; about $973 for two packs and one dock with the TRL 3 prices) | Decided by Amish, 2026-09-25: go with recommendation. Keep $700 for TRL 3 and set the build budget before any build. On hold: TRL 4 is on hold (SWC-DDR-002) |
 | 16 | LFP variant (16S) sharing the envelope and message set | Proposed, awaiting Amish. No preference stated |
-| 17 | Connector family | Proposed, awaiting Amish. Recommendation in SWC-PRC-001 v0.3: custom keyed shroud with commercial high-current socket contacts and potted signal contacts |
-| 18 | EnergyBus gateway detail | Open. The message-by-message mapping needs the CiA 454 specification, which is distributed through a membership organization and was not read in this session |
-| 19 | Values chosen inside the approved additions W, C and V (10 kΩ coded interlock, 100 µA sleep limit, 25 g shock level, 330 N receiver preload, charge-FET fallback rule) | Engineering proposals, awaiting Amish's confirmation. The additions themselves are decided |
-| 20 | R3 thermal rating: keep 20 A continuous with temperature derating, or derate the label to 15 A | Proposed, awaiting Amish. Recommendation: keep 20 A at 25 °C with the PACK_LIMITS derating (SWC-CAL-001) |
+| 17 | Connector family | Decided by Amish, 2026-09-25: go with recommendation. Custom keyed shroud with commercial high-current socket contacts and potted signal contacts (SWC-DDR-002) |
+| 18 | EnergyBus gateway detail | Proposed, awaiting Amish (no recommendation to accept). The message-by-message mapping needs the CiA 454 specification, which is distributed through a membership organization and was not read in this session |
+| 19 | Values chosen inside the approved additions W, C and V (10 kΩ coded interlock, 100 µA sleep limit, 25 g shock level, 330 N receiver preload, charge-FET fallback rule) | Decided by Amish, 2026-09-25: go with recommendation. Values confirmed as proposed (SWC-DDR-002) |
+| 20 | R3 thermal rating: keep 20 A continuous with temperature derating, or derate the label to 15 A | Decided by Amish, 2026-09-25: go with recommendation. Keep 20 A at 25 °C with the PACK_LIMITS derating; R3 restated (SWC-DDR-002) |
 
 ## Consequences
 

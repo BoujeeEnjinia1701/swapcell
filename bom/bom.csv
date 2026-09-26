@@ -3,7 +3,7 @@ item,qty,spec,supplier,unit_cost_usd,make_buy,notes
 2 Lithium-ion cell,26,"21700, 5.0 Ah nominal (4.85 Ah minimum), 3.6 V, 25 A or more continuous; 13S2P; new and matched",Authorized cell distributor,5.50,buy,Small-quantity estimate; model chosen at supplier selection
 3 BMS board with CAN,1,"Open-source 13S BMS, CAN 2.0B, balancing, 30 A FETs, pre-charge, flash log, sleep current 100 uA or less, INTERLOCK wake comparator",Open-source BMS project or electronics distributor (assembled board),120.00,buy,Estimate; must support interface v0.3 wake and charge-discharge mode
 4 Pack lid,1,"3D-printed flame-retardant polymer (UL 94 V-0 grade), 3 mm, with gasket groove",Self (filament from a 3D-printing supplier),12.00,make,Material cost only
-"5 Blind-mate plug, pack side",1,"Custom keyed shroud with 2 x 40 A power contacts and 6 potted signal contacts, sequenced lengths",Connector distributor (contacts) and self (shroud),30.00,buy,Estimate; connector family proposed awaiting Amish
+"5 Blind-mate plug, pack side",1,"Custom keyed shroud with 2 x 40 A power contacts and 6 potted signal contacts, sequenced lengths",Connector distributor (contacts) and self (shroud),30.00,buy,Estimate; connector family decided 2026-09-25 (SWC-DDR-002); contact parts chosen at supplier selection
 6 Carry handle,1,"Printed or moulded loop, 25 mm grip clearance",Self,6.00,make,Material cost only
 7 Latch pawl,1,"Spring-loaded steel pawl 36 mm wide, 4 mm tooth, thumb release; proof load 1.72 kN (class V1)",Self and hardware store (spring steel and spring),12.00,make,Estimate; sized in SWC-CAL-001
 8 Wall dock cradle,1,"Aluminium back plate, printed cradle shelf and side guides, latch catch",Self and local metal supplier,30.00,make,Material cost only

@@ -1,4 +1,4 @@
-"""SwapCell general arrangement drawing SWC-DWG-002 (Rev P1).
+"""SwapCell general arrangement drawing SWC-DWG-002 (Rev P2).
 
 Run from the repo root:  python cad/src/sheets.py
 Builds cad/drawings/SWC-DWG-002.svg, .pdf and .png from the parametric model.
@@ -18,9 +18,10 @@ work = ROOT / "cad/drawings/_views"
 views = project_views(asm, work)
 
 s = Sheet(project="SwapCell", title="General arrangement, pack in wall dock", dwg_no="SWC-DWG-002",
-          rev="P1", author="Amish Chadha", date="2026-09-25", concept=True,
+          rev="P2", author="Amish Chadha", date="2026-09-25", concept=True,
           material="Pack: 1.5 mm 5052 Al tray, FR polymer lid; dock: Al plate, printed cradle. See bom/bom.csv",
-          revisions=[("P1", "Preliminary GA, interface v0.3 (SWC-CAL-001)", "2026-09-25", "AC")])
+          revisions=[("P1", "Preliminary GA, interface v0.3 (SWC-CAL-001)", "2026-09-25", "AC"),
+                     ("P2", "Notes: connector family, R3 derating (SWC-DDR-002)", "2026-09-25", "AC")])
 s.add_ortho(views, ["front", "top", "right"])
 s.add_svg(views["iso"], 276, 30, 140, 84, label="Isometric view", sublabel="Not to scale")
 s.add_notes("Interface v0.3 key dimensions (mm)", [
@@ -35,6 +36,8 @@ s.add_notes("Interface v0.3 key dimensions (mm)", [
     "Vehicle receiver preload 330 N via over-centre lever",
     "Contacts: P1 PACK+, P2 PACK-, S1 SGND, S2/S3 CAN,",
     "  S4 WAKE, S5 AUX, S6 INTERLOCK (10 kOhm coded)",
+    "Connector: custom keyed shroud, commercial contacts",
+    "R3: 20 A open-air mount; derate 50 to 60 C cell temp",
     "Flush wake button on lid face (interface v0.3)",
     "Pack mass about 2.85 kg; 13S2P, 46.8 V, 468 Wh",
     "PRELIMINARY, NOT FOR FABRICATION",
