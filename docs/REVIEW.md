@@ -168,3 +168,28 @@ None required. The interface stays v0.3 and the confirmed values match what depe
 ### TRL
 
 `trl: 3` and `trl_target: 3` unchanged. **TRL 4 remains on hold by Amish's instruction.** No build, test, purchase, PCB or firmware work was started.
+
+## Session 2026-09-26: product appearance model and photoreal renders
+
+Amish chose this repo for the first batch of product renders on 2026-09-26. This session added a product appearance model for photoreal renders; the massing model, BOM and documents are unchanged.
+
+### What was done
+
+- New `cad/src/product_model.py`: `product_parts()` (53 parts in the groups shell, internal and context), `TITLE` and `RENDER_VIEWS` (hero, exploded and a detail view without the wall). All main dimensions and interfaces come from `PARAMS` in `cad/src/model.py`.
+- Pack: folded tray with 6 mm bend radii and rounded ends, lid with a parting-line groove and six M3 screws, flush teal wake button with a ring mark, interface label and wordmark, rating label on the side, latch doubler rivets, carry handle with a ribbed rubber grip, steel latch pawl with a teal thumb release, keyed plug shroud with visible power and signal contacts.
+- Pack internals: 26 cells with wraps and end caps, cell holders, nickel strips, BMS board with FETs, heatsink, connectors, capacitors and main fuse, and the two power leads to the plug.
+- Dock: brushed back plate with wall screws, cradle shelf with a wordmark, side guides with lead-in chamfers, steel latch catch, receptacle with mating contacts in the pocket, finned charger with a status light, cable gland and mains cord, controller box with a parting line, status light and microSD slot.
+- Context: a compact painted wall section and a cord grommet.
+- `README.md`: hero image now points to `media/render-hero.png`, with a link to `media/render-exploded.png`. The render files are produced separately.
+
+### Differences from model.py (appearance only)
+
+1. **Render pose.** The pack is shown lifted 110 mm above its seated position, still between the guides, to show a swap in progress; model.py shows it seated. Proposed, awaiting Amish. Recommendation: keep the lifted pose for the hero, since it shows the receptacle and the guides.
+2. **State-of-charge light bar.** A five-segment light bar behind a clear lens below the wake button, lit by the wake button press. It is not in interface v0.3 or the BOM. Proposed, awaiting Amish. Recommendation: accept as an optional pack feature under BOM item 14, outside the interface, or remove it from the renders.
+3. **Dock status light.** A light strip on the front of the cradle shelf, driven by the dock controller; not in the BOM. Proposed, awaiting Amish. Recommendation: accept under BOM item 11.
+4. **Thumb release.** Shown as a small ribbed tab on the pack top behind the handle; the precis says only "thumb release under the handle". Proposed, awaiting Amish. Recommendation: accept the position for the renders; the mechanism stays undefined at TRL 3.
+5. **Finish and colours.** Tray painted slate grey, lid light grey, handle graphite with a black rubber grip, teal accents, printed labels and wordmarks. Proposed, awaiting Amish. Recommendation: accept as the reference look.
+
+### TRL
+
+This is an appearance model only: no tolerances, fabrication detail, PCB layouts or build work. `trl: 3` is unchanged and **TRL 4 remains on hold by Amish's instruction.**
