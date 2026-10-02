@@ -2,13 +2,13 @@
 
 ![TRL 3](https://img.shields.io/badge/TRL-3%20of%209-0F766E) ![Hardware: CERN-OHL-S-2.0](https://img.shields.io/badge/hardware-CERN--OHL--S--2.0-111827) ![Software: MIT](https://img.shields.io/badge/software-MIT-111827) [![DOI](https://zenodo.org/badge/1386426417.svg)](https://zenodo.org/badge/latestdoi/1386426417) [![REUSE compliant](https://github.com/BoujeeEnjinia1701/swapcell/actions/workflows/reuse.yml/badge.svg)](https://github.com/BoujeeEnjinia1701/swapcell/actions/workflows/reuse.yml) [![Archived in Software Heritage](https://archive.softwareheritage.org/badge/origin/https://github.com/BoujeeEnjinia1701/swapcell/)](https://archive.softwareheritage.org/browse/origin/?origin_url=https://github.com/BoujeeEnjinia1701/swapcell)
 
-**Area:** Mobility and Logistics · **TRL:** 3 of 9 (proof of concept on paper) · **Prototype budget:** about $700 USD · **Difficulty:** 4 of 5
+**Area:** Mobility and Logistics · **TRL:** 3 of 9 (proof of concept on paper) · **Value-engineering target:** about $700 USD · **Difficulty:** 4 of 5
 
 Open-standard swappable battery pack and wall dock for e-bikes, scooters and cargo trikes, with a defined connector, CAN-based BMS protocol and state-of-health logging.
 
 ![SwapCell: swappable e-bike battery pack and wall charging dock, product render](media/render-hero.png)
 
-[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [Review note](docs/REVIEW.md)
+[Exploded render](media/render-exploded.png) · [Detail render](media/render-detail.png) · [Interactive 3D model](media/viewer.html) · [Concept blueprint (PDF)](media/concept-blueprint.pdf) · [Prototype build plan](docs/05-build-plan.md) · [Design decisions](docs/06-design-decisions.md) · [Review note](docs/REVIEW.md)
 
 ## Concept rationale
 
@@ -63,7 +63,7 @@ Full design precis: [docs/02-concept.md](docs/02-concept.md) · Sizing note: [do
 
 ## Key components
 
-- 26 x 21700 cells in 13S2P: 46.8 V, 10 Ah, about 468 Wh, about 2.85 kg
+- 26 x 21700 cells in 13S2P: 46.8 V, 10 Ah, about 468 Wh; pack about 3.0 kg
 - Open-source BMS with CAN
 - Folded aluminium tray with a printed flame-retardant lid
 - Blind-mate power and signal connector with a coded interlock
@@ -71,7 +71,13 @@ Full design precis: [docs/02-concept.md](docs/02-concept.md) · Sizing note: [do
 - Latch pawl rated for vehicle class V1
 - ESP32 dock controller
 
-The priced bill of materials is in [bom/bom.csv](bom/bom.csv): about $559 for one pack and one dock, within the $700 budget.
+The priced bill of materials is in [bom/bom.csv](bom/bom.csv). Value-engineering target: USD 700. Estimated cost of the constructable design: USD 606 for one pack and one dock (USD 94 under the target).
+
+## Building the prototype
+
+![SwapCell prototype: every component pulled apart and numbered in build order](docs/05-build-plan/overview.png)
+
+The [prototype build plan](docs/05-build-plan.md) (SWC-BLD-001) shows, in pictures, how to make each of the twenty components of one pack and one wall dock and put them together in seventeen steps; nothing has been built yet. The made parts are a folded aluminium tray, a steel latch with a thumb release, printed plug, receptacle, cell frames, handle, shelf and guides, and a 12 mm aluminium back plate; the cells, battery management board, contacts, charger and controller are bought. Writing the plan made the design buildable: the latch was redesigned so it actually holds the pack, the receptacle now floats, and every part has a fixing (SWC-DDR-003, open for Amish's review). Every picture is drawn from the model, which checks that each part touches what it should and clears what it should not; open questions are in the [design decisions register](docs/06-design-decisions.md).
 
 ## Safety
 

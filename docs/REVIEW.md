@@ -199,3 +199,61 @@ This is an appearance model only: no tolerances, fabrication detail, PCB layouts
 - Kit 1.5.0 synced: STANDARDS v1.5 (sections 12 to 15: product renders, storefront images and image quality, public release, authorship and signing), `.kit/cards.py`, `.kit/image_qc.py`, `.kit/release_gate.py`, issue templates, and the `/render-product` and `/release` commands. `CLAUDE.md` now matches `.kit/CLAUDE.md`.
 - Every `media/render-*.png` recaptioned from its original render with the new layout: the title, concept label and repository sit in a band above the render and the view note in a band below it, each line wrapped to the image width, so no text overlaps other text or the render or runs off the image. `media/card.png` and `media/social-preview.png` regenerated with the same rules.
 - `python .kit/image_qc.py` and `python .kit/release_gate.py` pass. trl stays 3.
+
+## Session 2026-10-01: constructable design and prototype build plan (kit 1.7.0)
+
+Amish's instructions: approve the build plan format and extend it to every repo (2026-09-30), keep open decisions out of the build plan and in a separate register (2026-09-30), make the design physically buildable while drawing the illustrations (2026-09-30), and treat `budget_usd` as a value-engineering target (2026-10-01). TRL stays 3; TRL 4 remains on hold. Nothing was built or bought.
+
+### What was done
+
+- Kit 1.7.0 installed (`.kit/`, `.claude/commands/`); `CLAUDE.md` replaced by `.kit/CLAUDE.md`.
+- Constructability review of `cad/src/model.py` with build123d: the old model had the receptacle inside the solid shelf (25,000 mm³ overlap), the guides and controller box floating off the back plate, the controller 35 mm past the plate's edge, the latch catch below the pawl, and no fixing for the lid, plug, handle, cells, BMS, charger, shelf or guides.
+- `cad/src/model.py` rewritten: every component built as made or bought, with its fixings; `python cad/src/model.py --check` runs 71 constructability checks, all passing. STEP and STL regenerated.
+- New decision record `docs/decisions/0003-design-for-construction.md` (SWC-DDR-003, Draft, open for Amish's review).
+- `bom/bom.csv`: lines 1, 4 to 9 and 11 to 13 updated; lines 15 (latch housing, release slider and springs), 16 (cell holder frames) and 17 (dock mounting parts) added. `bom/bom-notes.md` updated.
+- Calculations re-run (`docs/04-calcs/sizing.py`, `results.csv`): SWC-CAL-001 v0.3, SWC-REQ-001 v0.5, SWC-PRC-001 v0.5 updated for mass, thermal, cost and the latch.
+- General arrangement SWC-DWG-002 Rev P3; concept media regenerated (`media/hero.png`, `cutaway.png`, `exploded.png`, `flow.png`, `concept-blueprint.*`, `model.glb`, `viewer.html`).
+- `cad/src/build_plan_media.py` (uses `.kit/build_views.py`): overview, 15 making sketches (`cad/drawings/SWC-DWG-101` to `115`), 9 joint close-ups, 17 assembly step pictures and a block wiring diagram in `docs/05-build-plan/`.
+- `docs/05-build-plan.md` (SWC-BLD-001 v0.1) and `docs/06-design-decisions.md` (SWC-DEC-001 v0.1) written; both added to `trl_evidence`; `design_state: constructable` in `project.yaml`; README links line and "Building the prototype" section added.
+
+### Design changes made for construction (SWC-DDR-003)
+
+1. Latch catch moved from 2 mm below the pawl to 1 mm above it, as a separate steel bar on two M5 screws, so the pawl hooks 4 mm under it.
+2. Pawl redesigned: 6 mm proud (was 10), sliding in a riveted 1.5 mm steel housing (the latch doubler), pushed out by two springs and pulled in 5 mm by a ramped release slider under a thumb button just behind the grip.
+3. Cell block moved 8 mm toward the lid to make room for the latch, held in two printed holder frames on the back wall.
+4. Tray given 8 mm inward front flanges with eight M3 press-in nuts; lid on a 1 mm flat gasket with eight countersunk screws; tray 1 mm shallower so the body stays 80 mm deep.
+5. Plug shroud fixed by four M3 screws from inside, with a 42 x 22 mm lead opening; contacts fitted through it.
+6. Handle fixed by two M5 screws from inside into heat-set inserts.
+7. BMS on four standoffs with countersunk screws through the right side wall.
+8. Receptacle moved out of the solid shelf into a cavity under the pocket, captured by its flange on a foam pad and retainer plate, floating 3 mm each way; key post moved to the receptacle.
+9. Side guides extended back to the plate and screwed from behind; 10 mm lead-in modelled.
+10. Shelf and catch screwed from behind the plate.
+11. Controller box moved onto the plate between the charger and the shelf.
+12. Charger held by two folded straps; back plate lengthened from 520 to 580 mm.
+
+### Key results
+
+- Constructability checks: 71 of 71 pass.
+- Pack mass 3.03 kg (was 2.85 kg); R5 (3.5 kg) still met. Energy density 154 Wh/kg.
+- Thermal: hot spots unchanged (51, 63, 71 °C); enclosed derating current 18.6 A (was 18.5 A).
+- Cost: value-engineering target USD 700; estimated cost of the constructable design USD 606 (USD 94 under the target); pack USD 436, dock USD 170.
+- Requirement status unchanged: none not met; R2 and R9 at risk; R7, R8, R10, R11 and R15 not verifiable at TRL 3.
+- Published interface values unchanged.
+
+### Proposed, awaiting Amish
+
+All listed in `docs/06-design-decisions.md`: acceptance of SWC-DDR-003; widening the handle zone to cover the thumb button (interface v0.4); publishing the catch geometry (interface v0.4); lid cut from V-0 sheet instead of printed; keeping the thermal assumption with the cells off the back wall; and the items carried over (co-design partner, LFP variant, EnergyBus mapping, the five render appearance items of 2026-09-26).
+
+### Stale, to regenerate on Amish's Mac
+
+`media/render-hero.png`, `media/render-exploded.png`, `media/render-detail.png`, `media/card.png` and `media/social-preview.png` still show the concept (six lid screws, a 10 mm pawl, guides off the plate, a shorter back plate, no charger straps). `cad/src/product_model.py` reads its sizes from the model and was not edited; it renders the 6 mm pawl from the new parameters.
+
+### Safety concerns
+
+- Unchanged hazards: 468 Wh lithium-ion pack, about 500 A into a short; thermal runaway not analyzed. The build plan carries seven safety stops, including building, charging and testing only inside a fireproof enclosure, never unattended.
+- The latch now retains the pack in the dock (class D). Class V1 vehicle retention still needs the TRL 4 vibration test.
+- Every screw and rivet head on the pack's published faces is countersunk, so nothing can snag a receiver or short against it.
+
+### Recommended next step
+
+Amish reviews SWC-DDR-003 and the register items 1 to 5. If accepted, issue interface v0.4 with the handle-zone and catch clarifications and tell the dependent repos. TRL 4 remains on hold.

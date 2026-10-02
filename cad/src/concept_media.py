@@ -30,9 +30,9 @@ hand = (Pos(0, 8, top - 2) * Box(96.0, 44.0, 26.0)                        # fing
 context = [Part("Wall and adult hand", wall + hand, "#C8CDD3")]
 
 render_all(
-    parts, project="SwapCell", title="Pack and wall dock concept", dwg_no="SWC-DWG-001", date="2026-09-25",
+    parts, project="SwapCell", title="Pack and wall dock concept", dwg_no="SWC-DWG-001", date="2026-10-01",
     key_figures=["13S2P 21700: 46.8 V nominal, 10 Ah, about 468 Wh",
-                 "Pack body 340 x 90 x 80 mm, about 2.85 kg (SWC-CAL-001)",
+                 "Pack body 340 x 90 x 80 mm, about 3.0 kg (SWC-CAL-001)",
                  "20 A continuous, 35 A peak for 10 s",
                  "Interface v0.3: 2 power + 6 signal, CAN 250 kbit/s",
                  "Dock 5 A: about 2.3 h full charge (estimate)"],

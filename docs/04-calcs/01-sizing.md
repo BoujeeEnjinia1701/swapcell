@@ -3,9 +3,9 @@ doc_id: SWC-CAL-001
 title: SwapCell sizing and interface v0.3 calculations
 project: SwapCell
 doc_type: Calculation note
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-01'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,11 +17,15 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.3"
+  date: '2026-10-01'
+  author: Amish Chadha
+  change: Constructable design (SWC-DDR-003) mass, thermal and cost; budget treated as a value-engineering target
 ---
 
 # SwapCell sizing and interface v0.3 calculations
 
-The 13S2P reference pack meets its voltage, charge time, mass, envelope, data and budget requirements on paper, and the three interface v0.3 additions are feasible with large margins. R3 is now met on paper as restated by Amish's decision of 2026-09-25 (SWC-DDR-002): 20 A from 25 °C in an open-air mount, with temperature derating in PACK_LIMITS elsewhere (about 18.5 A enclosed, about 14.0 A from 45 °C ambient). R9 (cycle life) stays **at risk**, and R2 is at risk only at the datasheet minimum cell capacity. No requirement is shown to be not met. Connector, sealing, protections and latch retention (R7, R8, R10, R11, R15) cannot be verified until hardware exists, which is TRL 4 work and on hold by Amish's instruction.
+The 13S2P reference pack meets its voltage, charge time, mass, envelope and data requirements on paper, its parts cost is under the value-engineering target, and the three interface v0.3 additions are feasible with large margins. R3 is now met on paper as restated by Amish's decision of 2026-09-25 (SWC-DDR-002): 20 A from 25 °C in an open-air mount, with temperature derating in PACK_LIMITS elsewhere (about 18.5 A enclosed, about 14.0 A from 45 °C ambient). R9 (cycle life) stays **at risk**, and R2 is at risk only at the datasheet minimum cell capacity. No requirement is shown to be not met. Connector, sealing, protections and latch retention (R7, R8, R10, R11, R15) cannot be verified until hardware exists, which is TRL 4 work and on hold by Amish's instruction.
 
 Every number in this note is printed by `docs/04-calcs/sizing.py` (run from the repo root: `python docs/04-calcs/sizing.py`), which also writes `docs/04-calcs/results.csv`. All values are first-principles estimates; nothing here is measured.
 
@@ -37,7 +41,7 @@ Every number in this note is printed by `docs/04-calcs/sizing.py` (run from the 
 | Resistance outside the cells | 32 mΩ | Links, fuse wires, FETs, shunt, main fuse, connector |
 | Resistance rise late in discharge and with age | x 1.25 on cell resistance | Sensitivity case |
 | Fleet-mode capacity | 90 % of standard | Typical at 4.1 V per cell |
-| Tray | 1.5 mm 5052 aluminium, 2.70 g/cm³, 900 J/(kg K) | Decided, SWC-DDR-001 item 2 |
+| Tray | 1.5 mm 5052 aluminium, 2.70 g/cm³, 900 J/(kg K), with 8 mm inward front flanges | Decided, SWC-DDR-001 item 2; flanges SWC-DDR-003 |
 | Lid | 3 mm flame-retardant polymer, 1.20 g/cm³ | PC/ABS class |
 | External heat loss | 9 W/(m² K) | Still air, natural convection plus radiation |
 | Cell core to tray | 0.10 K/W | Holders and thermal pads |
@@ -45,7 +49,7 @@ Every number in this note is printed by `docs/04-calcs/sizing.py` (run from the 
 | Cell charge efficiency, motor and controller efficiency | 95 %, 80 % | Typical |
 | Contact insertion forces | 12 N per power contact, 1.5 N per signal contact, 8 N latch detent | Assumed until the contact parts are chosen (family decided: custom keyed shroud, SWC-DDR-002) |
 | Vibration and shock for latch class V1 | 8 g peak sine; 25 g, 11 ms half-sine | UN 38.3 test T3 peak for batteries under 12 kg; 25 g curb-strike level, decided by Amish 2026-09-25 (SWC-DDR-002) |
-| Receiver design mass | 3.5 kg | R5 limit, not the 2.85 kg pack |
+| Receiver design mass | 3.5 kg | R5 limit, not the 3.03 kg pack |
 | Sleep current | 100 µA | Target for a BMS asleep with the INTERLOCK comparator armed |
 | INTERLOCK sensing | 100 kΩ pull-up from a 3.3 V sleep rail; 10 kΩ coding resistor in the receiver | Interface v0.3 item W |
 | Host input capacitance, pre-charge resistor | 1,000 µF, 100 Ω | Typical 48 V controller |
@@ -67,20 +71,21 @@ For protections (R11): a bolted short at 54.6 V draws about 496 A, so a 500 µs 
 | Part | Mass (kg) | Basis |
 | --- | --- | --- |
 | Cells | 1.79 | 26 x 69 g |
-| Tray | 0.40 | 1.5 mm Al, back, two sides, two ends (computed from the envelope) |
+| Tray | 0.43 | 1.5 mm Al, back, two sides, two ends and the front flanges (computed from the envelope) |
 | Lid | 0.11 | 3 mm over 340 x 90 mm |
 | Interconnects, holders, insulation | 0.18 | Estimate |
 | BMS board | 0.12 | Estimate |
 | Plug | 0.06 | Estimate |
-| Handle and latch pawl | 0.10 | Estimate |
-| Seals, fasteners, wake button | 0.08 | Estimate |
-| **Total** | **2.85 (6.3 lb)** | R5 limit 3.5 kg |
+| Handle and latch pawl | 0.13 | Model volumes: steel pawl 11.4 cm³, printed handle 30 cm³ |
+| Latch housing, release slider, thumb button and springs | 0.11 | Added for construction (SWC-DDR-003) |
+| Seals, fasteners, wake button | 0.10 | Estimate; press-in nuts, screws, inserts and rivets added (SWC-DDR-003) |
+| **Total** | **3.03 (6.7 lb)** | R5 limit 3.5 kg |
 
-The body is 340 x 90 x 80 mm (2.45 L), giving about 164 Wh/kg and 191 Wh/L. The handle adds 35 mm and the plug 18 mm, so the overall length is 393 mm against the 400 mm limit. The parametric model (`cad/src/model.py`) reproduces these: pack 90 x 90 x 393 mm including the 10 mm latch pawl, body 90 x 80 x 340 mm with the wake button flush.
+The body is 340 x 90 x 80 mm (2.45 L), giving about 154 Wh/kg and 191 Wh/L. The handle adds 35 mm and the plug 18 mm, so the overall length is 393 mm against the 400 mm limit. The parametric model (`cad/src/model.py`) reproduces these: pack 90 x 86 x 393 mm including the latch pawl, which stands 6 mm proud, and body 90 x 80 x 340 mm with the lid, gasket, wake button and screw heads flush.
 
 ## 4. Thermal (R3)
 
-A lumped model with heat loss replaces the TRL 2 adiabatic estimate. The pack heat capacity is about 2.26 kJ/K, the outer area 0.130 m², the loss conductance UA about 1.17 W/K and the thermal time constant about 32 min, close to the 30 min of a full discharge at 20 A. Cell hot-spot temperature is ambient plus the lumped rise, ΔT = (Q/UA)(1 - e^(-t/τ)), plus the core-to-tray drop.
+A lumped model with heat loss replaces the TRL 2 adiabatic estimate. The pack heat capacity is about 2.29 kJ/K, the outer area 0.130 m², the loss conductance UA about 1.17 W/K and the thermal time constant about 33 min, close to the 30 min of a full discharge at 20 A. Cell hot-spot temperature is ambient plus the lumped rise, ΔT = (Q/UA)(1 - e^(-t/τ)), plus the core-to-tray drop.
 
 *Table 3. Cell hot spot at the end of a full 20 A discharge.*
 
@@ -89,7 +94,7 @@ A lumped model with heat loss replaces the TRL 2 adiabatic estimate. The pack he
 | Base resistance | 44 W | 51 °C | 63 °C | 71 °C |
 | Resistance x 1.25 | 52 W | 56 °C | 70 °C | 76 °C |
 
-The 20 A rating holds in open air from 25 °C with 4 to 9 K margin, but not in an enclosed vehicle mount or from 45 °C ambient. The continuous current that holds 60 °C over a full discharge is about 18.5 A in an enclosed (adiabatic) mount from 25 °C and about 14.0 A in open air from 45 °C. At a typical e-bike 10 A the pack makes only about 11 W.
+The 20 A rating holds in open air from 25 °C with 4 to 9 K margin, but not in an enclosed vehicle mount or from 45 °C ambient. The continuous current that holds 60 °C over a full discharge is about 18.6 A in an enclosed (adiabatic) mount from 25 °C and about 14.0 A in open air from 45 °C. At a typical e-bike 10 A the pack makes only about 11 W.
 
 Amish decided on 2026-09-25 (SWC-DDR-002) to keep the 20 A rating at 25 °C with temperature derating, and R3 is restated to match: 20 A in an open-air mount from 25 °C, and in any other case the pack lowers the allowed discharge current in PACK_LIMITS so the cells stay below 60 °C. The derating rule in SWC-PRC-001 v0.4 (full current to 50 °C cell temperature, falling linearly to 5 A at 60 °C) brings the pack to about the currents above without host action. R3 as restated is **met on paper**; it still needs a load test, which is TRL 4 work and on hold.
 
@@ -119,11 +124,11 @@ The v0.3 message set sends about 34.1 frames per second per pack, a bus load of 
 
 | Group | Items | Cost (USD) |
 | --- | --- | --- |
-| One pack | 1 to 7, 12 to 14 | 414 |
-| One wall dock | 8 to 11 | 145 |
-| **Total** | 1 to 14 | **559** |
+| One pack | 1 to 7, 12 to 16 | 436 |
+| One wall dock | 8 to 11, 17 | 170 |
+| **Total** | 1 to 17 | **606** |
 
-The total is within the $700 budget with about $141 margin. Cells are about $143, or $0.31 per Wh. Per the portfolio rule (SWC-DDR-001), this is the only place a SwapCell pack is priced.
+Value-engineering target: USD 700 (`budget_usd`, a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 606 (USD 94 under the target). Making the design buildable added USD 47: the latch housing, release slider and springs (line 15), the dock mounting parts (line 17), the longer back plate and more fixings (SWC-DDR-003). Cells are about $143, or $0.31 per Wh. Per the portfolio rule (SWC-DDR-001), this is the only place a SwapCell pack is priced.
 
 ## 9. Results against requirements
 
@@ -139,17 +144,19 @@ The total is within the $700 budget with about $141 margin. Cells are about $143
 | R11 | Short circuit 496 A, 123 A²s in 500 µs; pre-charge 460 ms; functions specified | Protections listed in R11 | Not verifiable at TRL 3 |
 | R15 | Proof load 1.72 kN; rivet bearing margin 4.2; lever ratio 6.6 | Class V1 vibration and shock, no release | Not verifiable at TRL 3 |
 | R1 | 46.8 V nominal, 39.0 to 54.6 V | 46.8 V; 39.0 to 54.6 V | Met |
-| R3 | 51 °C open air, 56 °C with higher resistance; derates to 18.5 A enclosed and 14.0 A from 45 °C; 17.5 A per cell at 35 A | Cells below 60 °C from 25 °C at 20 A in an open-air mount; derate elsewhere; 35 A for 10 s | Met (on paper) |
+| R3 | 51 °C open air, 56 °C with higher resistance; derates to 18.6 A enclosed and 14.0 A from 45 °C; 17.5 A per cell at 35 A | Cells below 60 °C from 25 °C at 20 A in an open-air mount; derate elsewhere; 35 A for 10 s | Met (on paper) |
 | R4 | 2.3 h full; 1.6 h to 80 % | 3 h full; 2 h to 80 % | Met |
-| R5 | 2.85 kg | 3.5 kg or less | Met |
+| R5 | 3.03 kg | 3.5 kg or less | Met |
 | R6 | 340 x 90 x 80 mm; 393 mm overall | 400 mm or less overall | Met |
 | R12 | Bus load 1.8 %; log 62.5 KiB in about 10 s | CAN 250 kbit/s, 2,000 records, CSV export | Met (on paper) |
 | R13 | Sleep drain 0.72 % per month; coded INTERLOCK at 0.30 V | Wake with no host supply; 1 % per month or less | Met (on paper) |
 | R14 | Net 3.8 A charge in the PowerBox case, within 5.0 A | Charge-discharge mode within limits | Met (on paper) |
-| R16 | $559 for one pack and one dock | $700 | Met |
+| R16 | USD 606 for one pack and one dock | USD 700 value-engineering target | Under the target by USD 94 |
 
 ## 10. Checks against earlier documents
 
 The TRL 2 figures in SWC-PRC-001 v0.2 were checked against this script and corrected in v0.3: mass 2.8 to 2.85 kg, grid energy 550 to 547 Wh, terminal energy 454 to 457 Wh, pack parts $370 to $414 (cell price raised from $4.50 to $5.50 and a wake button added), adiabatic rise 36 to 35 K with a better heat capacity, and 0 to 80 % charge time stated as 1.6 h. The log size is 64,000 bytes (62.5 KiB), not "64 kB" of binary kilobytes.
+
+**Constructable design (v0.3).** SWC-DDR-003 made the model buildable: fixings for every part, a working latch with a release, a floating receptacle and a longer dock plate. Mass rose from 2.85 to 3.03 kg, the heat capacity from 2.26 to 2.29 kJ/K, the enclosed derating current from 18.5 to 18.6 A and the parts cost from USD 559 to USD 606. No requirement changed status. The latch sizing is unchanged: the pawl is still 36 mm wide with a 4 mm engagement, and the six 4 mm rivets now fix the latch housing, which is the doubler.
 
 > **Safety:** These calculations concern a 468 Wh lithium-ion pack that can deliver about 500 A into a short. They are paper estimates and do not replace protection design review or testing. No pack may be built or charged from this note; building and testing are TRL 4 work and on hold.

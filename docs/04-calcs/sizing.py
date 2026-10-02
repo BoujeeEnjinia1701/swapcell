@@ -1,4 +1,4 @@
-"""SwapCell sizing calculations for SWC-CAL-001 v0.2 (TRL 3).
+"""SwapCell sizing calculations for SWC-CAL-001 v0.3 (TRL 3, constructable design, SWC-DDR-003).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Prints every number quoted in docs/04-calcs/01-sizing.md and writes
@@ -32,6 +32,7 @@ FLEET_CAPACITY_FACTOR = 0.90   # capacity at a 4.1 V per cell charge limit (typi
 # Housing (massing model, SWC-DWG-002)
 BODY = dict(L=340.0, W=90.0, D=80.0)   # mm
 TRAY_T = 1.5                           # mm aluminium
+FLANGE_W = 8.0                         # mm inward flange round the open front (SWC-DDR-003)
 RHO_AL = 2.70e-3                       # g/mm^3
 LID_T, RHO_LID = 3.0, 1.20e-3          # mm, g/mm^3 (flame-retardant PC/ABS class)
 CP_AL = 900.0
@@ -41,8 +42,9 @@ MASS_OTHER = {  # kg, estimates for parts not computed from geometry
     "Interconnects, holders and insulation": 0.18,
     "BMS board": 0.12,
     "Blind-mate plug": 0.06,
-    "Handle and latch pawl": 0.10,
-    "Seals, fasteners, wake button": 0.08,
+    "Handle and latch pawl": 0.13,        # model volumes: steel pawl 11.4 cm3, printed handle 30 cm3 (SWC-DDR-003)
+    "Latch housing, release slider, thumb button and springs": 0.11,   # added for construction (SWC-DDR-003)
+    "Seals, fasteners, wake button": 0.10,  # press-in nuts, screws, inserts and rivets added (SWC-DDR-003)
 }
 
 # Thermal
@@ -94,7 +96,7 @@ PRECHARGE_R = 100.0  # ohm
 SOLAR_W, LOAD_W = 200.0, 20.0
 
 BOM = Path(__file__).resolve().parents[2] / "bom" / "bom.csv"
-BUDGET = 700.0
+BUDGET = 700.0         # value-engineering target (budget_usd), not a limit
 
 
 def main():
@@ -134,6 +136,7 @@ def main():
     print("== Mass")
     L, W, D = BODY["L"], BODY["W"], BODY["D"]
     tray_area = W * L + 2 * D * L + 2 * W * D          # open front, lid closes it
+    tray_area += 2 * (L - 2 * TRAY_T) * FLANGE_W + 2 * (W - 2 * TRAY_T - 2 * FLANGE_W) * FLANGE_W   # front flanges
     m_tray = tray_area * TRAY_T * RHO_AL / 1000
     m_lid = W * L * LID_T * RHO_LID / 1000
     m_cells = n * CELL["mass_kg"]
@@ -276,10 +279,10 @@ def main():
     total = sum(float(r["qty"]) * float(r["unit_cost_usd"]) for r in rows)
     def group(nums):
         return sum(float(r["qty"]) * float(r["unit_cost_usd"]) for r in rows if int(r["item"].split()[0]) in nums)
-    pack = group({1, 2, 3, 4, 5, 6, 7, 12, 13, 14})
-    dock = group({8, 9, 10, 11})
+    pack = group({1, 2, 3, 4, 5, 6, 7, 12, 13, 14, 15, 16})
+    dock = group({8, 9, 10, 11, 17})
     say("pack parts", pack, "{:.0f}", "USD"); say("dock parts", dock, "{:.0f}", "USD")
-    say("BOM total", total, "{:.0f}", "USD"); say("budget margin", BUDGET - total, "{:.0f}", "USD")
+    say("BOM total", total, "{:.0f}", "USD"); say("under the value-engineering target by", BUDGET - total, "{:.0f}", "USD")
     say("cell cost", n * CELL["price"], "{:.0f}", "USD")
     say("cell cost per Wh", n * CELL["price"] / (ah * v_nom), "{:.2f}", "USD/Wh")
 
@@ -316,7 +319,8 @@ def main():
          st(i_net <= 0.5 * ah) + " (on paper)"),
         ("R15", f"Proof {f_proof:.0f} N; bearing margin {AL_BEARING_ALLOW / bearing:.1f}x; lever ratio {preload / LEVER_FORCE_MAX:.1f}",
          "Class V1 vibration and shock, no release", "Not verifiable at TRL 3"),
-        ("R16", f"Pack and dock parts {total:.0f} USD", "700 USD for one pack and one dock", st(total <= BUDGET)),
+        ("R16", f"Pack and dock parts {total:.0f} USD, {abs(BUDGET - total):.0f} USD {'under' if total <= BUDGET else 'over'} the target",
+         "Value-engineering target 700 USD for one pack and one dock", "Under the target" if total <= BUDGET else "Over the target"),
     ]
     res = Path(__file__).with_name("results.csv")
     with res.open("w", newline="") as f:

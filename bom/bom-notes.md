@@ -1,17 +1,17 @@
 # BOM notes
 
-Every line in `bom/bom.csv` is priced (TRL 3). Prices are estimates for one-off purchase in 2026 US dollars, with a supplier or supplier type; they are not quotes. Item numbers match the exploded view (`media/exploded.png`), the components table in SWC-PRC-001 and drawing SWC-DWG-002; items 12 to 14 are not modelled. The totals below are printed by `docs/04-calcs/sizing.py` (SWC-CAL-001).
+Every line in `bom/bom.csv` is priced (TRL 3). Prices are estimates for one-off purchase in 2026 US dollars, with a supplier or supplier type; they are not quotes. Item numbers 1 to 11 match the exploded view (`media/exploded.png`), the components table in SWC-PRC-001 and drawing SWC-DWG-002; the build plan SWC-BLD-001 shows every made item. The totals below are printed by `docs/04-calcs/sizing.py` (SWC-CAL-001).
 
 | Group | Items | Cost |
 | --- | --- | --- |
-| One pack | 1 to 7, 12 to 14 | $414 (cells $143) |
-| One wall dock | 8 to 11 | $145 |
-| Total | 1 to 14 | $559 |
+| One pack | 1 to 7, 12 to 16 | USD 436 (cells USD 143) |
+| One wall dock | 8 to 11, 17 | USD 170 |
+| Total | 1 to 17 | USD 606 |
 
-Against the $700 budget in `project.yaml` (kept by Amish on 2026-09-25 for one pack and one dock), the margin is about $141. Changes since TRL 2: cell price raised from $4.50 to $5.50 for a named-brand high-power cell from an authorized distributor, latch pawl and tray upgraded for the class V1 proof load, and item 14 (wake button, interface v0.3) added.
+Value-engineering target: USD 700 (`budget_usd` in `project.yaml`, a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 606 (USD 94 under the target). Changes since TRL 2: cell price raised from USD 4.50 to USD 5.50 for a named-brand high-power cell from an authorized distributor, latch pawl and tray upgraded for the class V1 proof load, and item 14 (wake button, interface v0.3) added. Making the design constructable on 2026-10-01 (SWC-DDR-003) added USD 47: lines 15 (latch housing, release slider and springs), 16 (cell holder frames, moved out of line 12) and 17 (dock mounting parts), a longer back plate on line 8, front flanges on the tray (line 1) and more fixings (line 13). Every line now has geometry in the model except line 12 (wiring) and the label on line 14.
 
 **Shared packs.** By Amish's 2026-09-25 portfolio rule, the SwapCell pack is priced here only. Dependent kits (PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule and others) exclude it from their budgets and cite this BOM.
 
-A second pack for a real swap demonstration would add about $414 (total about $973). Amish decided on 2026-09-25 (SWC-DDR-002) that this build budget is set before any build; it is on hold with TRL 4.
+A second pack for a real swap demonstration would add about USD 436 (total about USD 1,042). Amish decided on 2026-09-25 (SWC-DDR-002) that this build budget is set before any build; it is on hold with TRL 4.
 
 Cells must be new, matched and bought from an authorized distributor. Do not substitute recycled or unknown-grade cells in the reference pack.
