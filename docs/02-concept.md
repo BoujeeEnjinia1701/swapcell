@@ -3,9 +3,9 @@ doc_id: SWC-PRC-001
 title: SwapCell design precis
 project: SwapCell
 doc_type: Design precis
-version: "0.5"
+version: "0.6"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -29,13 +29,17 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Constructable design (SWC-DDR-003) latch, fixings and dock; mass and cost updated; budget treated as a value-engineering target
+- version: "0.6"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Issue SwapCell interface v0.4 (handle zone 84 x 43 mm, catch geometry, reserved LFP chemistry code and coding key); polycarbonate sheet lid for the prototype; partner, LFP and EnergyBus decisions of 2026-10-02"
 ---
 
 # SwapCell design precis
 
 SwapCell is a 48 V, 10 Ah lithium-ion pack of 26 cells in a 340 x 90 x 80 mm body that drops, connector first, into a wall dock or a vehicle mount, mates through a floating blind-mate connector, and talks to whatever it is plugged into over CAN. The pack carries its own state-of-health log, so any dock can read its history. The sizing note SWC-CAL-001 confirms that the 13S2P pack of 21700 cells gives about 468 Wh at about 3.0 kg, charges in about 2.3 h on a 5 A dock, and costs about USD 436 in prototype parts, with the dock adding about USD 170. The design was made constructable on 2026-10-01 (SWC-DDR-003, open for Amish's review), and the prototype build plan SWC-BLD-001 shows how it is made. Cycle life (R9) remains at risk. Cell temperature at 20 A (R3) is handled by the temperature derating rule Amish chose on 2026-09-25 (SWC-DDR-002).
 
-The interface (envelope, pinout and message set) is the core deliverable of this precis. This version issues **SwapCell interface v0.3**, which adds three items Amish approved on 2026-09-25: a wake method for hosts without CAN or a wake supply (item W), a charge-while-discharging mode (item C) and a latch vibration rating for vehicles (item V). PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule, FieldCell and other designs build to it.
+The interface (envelope, pinout and message set) is the core deliverable of this precis. This version issues **SwapCell interface v0.4**, which widens the handle zone and publishes the latch catch geometry (Amish, 2026-10-02), on top of v0.3, which added three items Amish approved on 2026-09-25: a wake method for hosts without CAN or a wake supply (item W), a charge-while-discharging mode (item C) and a latch vibration rating for vehicles (item V). PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule, FieldCell and other designs build to it.
 
 ![Hero render](../media/hero.png)
 
@@ -105,7 +109,7 @@ All values come from SWC-CAL-001 (`docs/04-calcs/sizing.py`) and are paper estim
 
 ## Interface definition
 
-This section is the **SwapCell interface, version 0.3** (draft, 2026-09-25). Amish approved v0.2 as written and the three v0.3 additions on 2026-09-25 (SWC-DDR-001). The specific values inside the additions (marked †) were engineering proposals; Amish confirmed them on 2026-09-25 (SWC-DDR-002). Other portfolio designs build to this section, cite it as "SwapCell interface v0.3", and flag any conflict to this repo rather than change it locally. Changes need Amish's approval.
+This section is the **SwapCell interface, version 0.4** (draft, 2026-10-02). Amish approved v0.2 as written and the three v0.3 additions on 2026-09-25 (SWC-DDR-001), and the v0.4 changes of Table 1a on 2026-10-02 (SWC-DDR-003, A1 and A2; SWC-DEC-001). The specific values inside the additions (marked †) were engineering proposals; Amish confirmed them on 2026-09-25 (SWC-DDR-002). Other portfolio designs build to this section, cite it as "SwapCell interface v0.4", and flag any conflict to this repo rather than change it locally. Changes need Amish's approval.
 
 *Table 1. Changes from v0.2.*
 
@@ -116,6 +120,14 @@ This section is the **SwapCell interface, version 0.3** (draft, 2026-09-25). Ami
 | V | Latch classes: D (gravity dock) and V1 (vehicle), with a proof load, preload and vibration profile | Vehicles shake; v0.2 had only a 3 g placeholder | R15 |
 | L | Full CAN bit layout (Table 3) and interface version in PACK_STATUS | TRL 3 work listed in the TRL 2 review | R12 |
 
+*Table 1a. Changes from v0.3 (2026-10-02).*
+
+| Item | Change | Why | Requirement |
+| --- | --- | --- | --- |
+| H | Handle zone widened to 84 x 43 mm, from the zone's front edge to the back face | The thumb button sits behind the v0.3 zone; receivers must leave it clear | R6 |
+| K | Catch geometry published: latching face 1 mm above the pawl, reach 8 mm from a plate 10 mm behind the pack, 4 mm engagement, 1 mm clear when retracted; pawl projection 6 mm, travel 5 mm | Every receiver must latch the same way | R15 |
+| X | A chemistry code in the message set and a connector coding key are reserved for a 16S LFP variant, so an LFP pack can never take an NMC charge or the reverse; values and key geometry are assigned when an LFP variant is designed | Full charge differs (about 58.4 V for 16S LFP, 54.6 V for 13S NMC) | R12 |
+
 ### Mechanical envelope
 
 | Feature | Value | Notes |
@@ -124,8 +136,8 @@ This section is the **SwapCell interface, version 0.3** (draft, 2026-09-25). Ami
 | Datum | Connector face (pack underside); insertion along the long axis, connector first | Same in dock and vehicle mount |
 | Connector position | Centred across the 90 mm width, 8 mm toward the back face from the depth centre line | Keeps the plug clear of the lid seam |
 | Guide faces | The two 340 x 80 mm side faces, 90 mm apart | Receiver guides with 1 mm clearance per side and a 10 mm lead-in |
-| Latch | Pawl on the back face, 45 mm below the top end, 36 mm wide, 4 mm tooth; engages a catch on the receiver | Proof load 1.72 kN† along the insertion axis |
-| Handle zone | Up to 35 mm above the top end, 84 x 22 mm footprint | Receivers leave this zone clear |
+| Latch | Pawl on the back face, 45 mm below the top end, 36 mm wide, 4 mm tooth, 6 mm projection, 5 mm travel; engages a catch on the receiver whose latching face is 1 mm above the pawl, reaching 8 mm from a plate 10 mm behind the pack, for 4 mm of engagement (v0.4) | Proof load 1.72 kN† along the insertion axis |
+| Handle zone | Up to 35 mm above the top end, 84 x 43 mm footprint, from the zone's front edge to the back face (v0.4) | Receivers leave this zone clear, including the thumb button |
 | Wake button | Flush in the lid (front) face, 12 mm, 70 mm below the top end | New in v0.3; inside the envelope |
 | Orientation | Any; the latch, not gravity, retains the pack in a vehicle | Dock uses gravity to seat |
 | Mass limit for receivers | 3.5 kg pack | R5 |
@@ -180,7 +192,7 @@ CAN 2.0B controllers at 250 kbit/s, 11-bit identifiers. Each pack has a node num
 | | 4 | State of charge | 0.5 %, 0 to 100 % |
 | | 5 | State | 0 sleep, 1 standby, 2 discharge, 3 charge, 4 charge-discharge, 5 legacy discharge, 6 fault |
 | | 6 | Flags | bit 0 INTERLOCK valid, 1 heartbeat valid, 2 discharge FET on, 3 charge FET on, 4 pre-charge active, 5 to 6 wake source (0 INTERLOCK, 1 WAKE, 2 button, 3 CAN), 7 fleet mode |
-| | 7 | Counter and version | bits 0 to 3 rolling counter, bits 4 to 7 interface minor version (3 for v0.3) |
+| | 7 | Counter and version | bits 0 to 3 rolling counter, bits 4 to 7 interface minor version (4 for v0.4) |
 | PACK_LIMITS | 0 to 1 | Allowed discharge current | 0.1 A |
 | | 2 to 3 | Allowed charge current | 0.1 A; 0 below 0 °C and above 45 °C cell temperature |
 | | 4 to 5 | Maximum charge voltage | 10 mV (54.60 V standard, 53.30 V fleet) |
@@ -230,7 +242,7 @@ CAN 2.0B controllers at 250 kbit/s, 11-bit identifiers. Each pack has a node num
 All of these were decided by Amish on 2026-09-25 (go with recommendation), SWC-DDR-001, unless marked otherwise.
 
 - **13S2P of 5 Ah 21700 cells.** Meets 10 Ah with 26 cells and 52 welds. A 13S4P "double" pack (about 900 Wh, about 5 kg) is a later variant in a longer envelope.
-- **Aluminium tray with a printed flame-retardant lid.** Metal spreads heat, resists a cell fire longer than a printed shell and carries the 1.72 kN latch proof load through a riveted doubler.
+- **Aluminium tray with a flame-retardant lid (3 mm UL 94 V-0 polycarbonate sheet for the prototype, decided 2026-10-02; a printed V-0 lid remains allowed).** Metal spreads heat, resists a cell fire longer than a printed shell and carries the 1.72 kN latch proof load through a riveted doubler.
 - **Floating blind-mate connector with a dead pack output and a coded interlock.** Sequenced contacts and a last-mate, resistor-coded interlock keep the output off until the pack is seated in a real receiver, avoid arcing on insertion and let a receiver wake the pack.
 - **Own open message set, with an EnergyBus gateway study.** Short, published and easy to implement on an ESP32 or a hobby controller.
 - **Legacy mode for vehicles without CAN.** Discharge only, fixed at 15 A.
@@ -270,9 +282,9 @@ Every open item, with options and recommendations, is tracked in the design deci
 Items that remain open after SWC-DDR-002. None of them is TRL 4 work to be started now; TRL 4 is on hold by Amish's instruction.
 
 - **Cell model (R9).** Which 5 Ah 21700 cell balances cycle life against current rating needs datasheet review against named cells; R9 stays at risk until then.
-- **LFP variant.** A 16S LFP pack (about 51 V nominal, up to 58.4 V) would be safer and longer lived but heavier. PACK_LIMITS already allows a different voltage window. No preference stated; awaiting Amish.
-- **EnergyBus mapping.** Needs the CiA 454 specification.
-- **First co-design partner.** Left open; the portfolio picks partners per area later. Proposed, awaiting Amish.
+- **LFP variant.** A 16S LFP pack (about 51 V nominal, up to 58.4 V) would be safer and longer lived but heavier. PACK_LIMITS already allows a different voltage window. Decided 2026-10-02: not added now; a chemistry code and a coding key are reserved in interface v0.4 so an LFP pack can never take an NMC charge or the reverse.
+- **EnergyBus mapping.** Deferred (2026-10-02): the native SwapCell profile stays the reference; CiA 454 is read only when a partner needs EnergyBus.
+- **First co-design partner.** Left open under the portfolio rule, but an urban cargo-bike or e-bike delivery fleet is approached first, with a repair workshop second (decided 2026-10-02). Nothing is agreed.
 - **Build budget for a second pack.** Decided 2026-09-25 to settle it before any build (about USD 1,042 for two packs and one dock with the constructable design); on hold with TRL 4.
 
 Concept media: [blueprint sheet](../media/concept-blueprint.pdf), [interactive 3D model](../media/viewer.html).

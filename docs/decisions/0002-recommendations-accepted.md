@@ -3,9 +3,9 @@ doc_id: SWC-DDR-002
 title: SwapCell recommendations accepted
 project: SwapCell
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,6 +13,10 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Record Amish's acceptance of all remaining recommendations and what changed in the repo
+- version: "0.2"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Table 2 items 14, 16 and 18 recorded as decided by Amish on 2026-10-02"
 ---
 
 # 0002: Recommendations accepted
@@ -41,7 +45,7 @@ The options for each item are in SWC-DDR-001 Table 2, SWC-PRC-001 v0.3 and SWC-C
 
 ### Items still open
 
-*Table 2. Items that stay Proposed, awaiting Amish (no recommendation to accept).*
+*Table 2. Items that stayed Proposed, awaiting Amish (no recommendation to accept); all three decided by Amish on 2026-10-02 (SWC-DEC-001).*
 
 | # (DDR-001) | Item | Why still open |
 | --- | --- | --- |

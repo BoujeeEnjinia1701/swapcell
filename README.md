@@ -14,7 +14,7 @@ Open-standard swappable battery pack and wall dock for e-bikes, scooters and car
 
 The cells inside almost every e-bike, scooter and cargo-trike battery are the same commodity 18650 or 21700 cells; what locks a pack to one brand is its housing, connector and data protocol. SwapCell therefore puts the effort into a published interface (envelope, pinout, coded interlock and CAN message set) rather than into a better cell. Once the interface is open, any fleet, workshop or small builder can make a pack or a receiver that works with everyone else's, and the pack's state-of-health log travels with it instead of living in a brand's cloud.
 
-The reference build uses parts a garage workshop can source and assemble: commodity cells, an open-source BMS, a folded aluminium tray, a printed lid and a certified off-the-shelf charger, so no custom mains electronics are needed. Keeping it open and buildable is what lets repair shops read and fix packs, and lets other open designs in this portfolio design around one battery instead of each inventing their own.
+The reference build uses parts a garage workshop can source and assemble: commodity cells, an open-source BMS, a folded aluminium tray, a flame-retardant sheet lid and a certified off-the-shelf charger, so no custom mains electronics are needed. Keeping it open and buildable is what lets repair shops read and fix packs, and lets other open designs in this portfolio design around one battery instead of each inventing their own.
 
 ## Burning platform
 
@@ -57,7 +57,7 @@ Every light electric vehicle brand uses its own battery, so fleets cannot share 
 
 Open-standard swappable battery pack and wall dock for e-bikes, scooters and cargo trikes, with a defined connector, CAN-based BMS protocol and state-of-health logging.
 
-The core deliverable is the open **SwapCell interface v0.3**: envelope, blind-mate pinout with a coded interlock, CAN message set with a full bit layout, wake for hosts without CAN, a charge-while-discharging mode and a vehicle latch rating. Other portfolio designs build to it.
+The core deliverable is the open **SwapCell interface v0.4**: envelope, blind-mate pinout with a coded interlock, CAN message set with a full bit layout, wake for hosts without CAN, a charge-while-discharging mode and a vehicle latch rating with its catch geometry published. Other portfolio designs build to it.
 
 Full design precis: [docs/02-concept.md](docs/02-concept.md) · Sizing note: [docs/04-calcs/01-sizing.md](docs/04-calcs/01-sizing.md) · General arrangement: [cad/drawings/SWC-DWG-002.pdf](cad/drawings/SWC-DWG-002.pdf)
 
@@ -65,7 +65,7 @@ Full design precis: [docs/02-concept.md](docs/02-concept.md) · Sizing note: [do
 
 - 26 x 21700 cells in 13S2P: 46.8 V, 10 Ah, about 468 Wh; pack about 3.0 kg
 - Open-source BMS with CAN
-- Folded aluminium tray with a printed flame-retardant lid
+- Folded aluminium tray with a flame-retardant UL 94 V-0 lid (polycarbonate sheet on the prototype)
 - Blind-mate power and signal connector with a coded interlock
 - Certified 5 A dock charger
 - Latch pawl rated for vehicle class V1

@@ -3,9 +3,9 @@ doc_id: SWC-REQ-001
 title: SwapCell requirements
 project: SwapCell
 doc_type: Requirements
-version: "0.5"
+version: "0.6"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -29,11 +29,15 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Constructable design (SWC-DDR-003) mass and cost; budget treated as a value-engineering target
+- version: "0.6"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Interface v0.4 noted (decisions of 2026-10-02); no requirement target or status changed"
 ---
 
 # SwapCell requirements
 
-These are the requirements for the pack, the dock and the SwapCell interface v0.3 between them. Amish accepted the TRL 2 recommendations on 2026-09-25 (SWC-DDR-001), including three interface additions, now R13 to R15. Requirements R6, R10 and R12 to R15 define the open interface that other portfolio designs depend on, so changes to them need Amish's approval. On 2026-09-25 Amish also accepted the remaining recommendations (SWC-DDR-002): R3 is restated around temperature derating, and the values inside R13 and R15 are confirmed. The status column comes from SWC-CAL-001 v0.2; no requirement is shown to be not met, and two are at risk.
+These are the requirements for the pack, the dock and the SwapCell interface between them (v0.4 since 2026-10-02: handle zone 84 x 43 mm, catch geometry published, LFP chemistry code and coding key reserved; no requirement target changed). Amish accepted the TRL 2 recommendations on 2026-09-25 (SWC-DDR-001), including three interface additions, now R13 to R15. Requirements R6, R10 and R12 to R15 define the open interface that other portfolio designs depend on, so changes to them need Amish's approval. On 2026-09-25 Amish also accepted the remaining recommendations (SWC-DDR-002): R3 is restated around temperature derating, and the values inside R13 and R15 are confirmed. The status column comes from SWC-CAL-001 v0.2; no requirement is shown to be not met, and two are at risk.
 
 | ID | Requirement | Target | Verification | Status (SWC-CAL-001) |
 | --- | --- | --- | --- | --- |

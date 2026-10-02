@@ -3,9 +3,9 @@ doc_id: SWC-DDR-001
 title: SwapCell TRL 2 review decisions and interface v0.3
 project: SwapCell
 doc_type: Design decision record
-version: "0.2"
+version: "0.3"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -17,12 +17,16 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: Recommendations accepted by Amish (DDR-002)
+- version: "0.3"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Items 14, 16 and 18 decided by Amish on 2026-10-02"
 ---
 
 # 0001: TRL 2 review decisions and interface v0.3
 
 - **Date:** 2026-09-25
-- **Status:** accepted (items 1 to 13; items 15, 17, 19 and 20 accepted later on 2026-09-25 in SWC-DDR-002); items 14, 16 and 18 remain proposed, awaiting Amish
+- **Status:** accepted (items 1 to 13; items 15, 17, 19 and 20 accepted later on 2026-09-25 in SWC-DDR-002); items 14, 16 and 18 decided by Amish on 2026-10-02 (SWC-DEC-001)
 
 ## Context
 
@@ -69,11 +73,11 @@ These had no recommendation, or the recommendation was to decide later, so they 
 
 | # | Item | Status |
 | --- | --- | --- |
-| 14 | First co-design partner (repair workshop, delivery fleet or rural e-bike cooperative) | Proposed, awaiting Amish. Portfolio rule: partners are chosen per area later |
+| 14 | First co-design partner (repair workshop, delivery fleet or rural e-bike cooperative) | Decided by Amish, 2026-10-02: kept open under the portfolio rule, but an urban cargo-bike or e-bike delivery fleet is approached first, with a repair workshop second |
 | 15 | Build budget for a second pack before any build (about $900 at TRL 2; about $973 for two packs and one dock with the TRL 3 prices) | Decided by Amish, 2026-09-25: go with recommendation. Keep $700 for TRL 3 and set the build budget before any build. On hold: TRL 4 is on hold (SWC-DDR-002) |
-| 16 | LFP variant (16S) sharing the envelope and message set | Proposed, awaiting Amish. No preference stated |
+| 16 | LFP variant (16S) sharing the envelope and message set | Decided by Amish, 2026-10-02: not added now; a chemistry code and a coding key are reserved so an LFP pack can never take an NMC charge or the reverse |
 | 17 | Connector family | Decided by Amish, 2026-09-25: go with recommendation. Custom keyed shroud with commercial high-current socket contacts and potted signal contacts (SWC-DDR-002) |
-| 18 | EnergyBus gateway detail | Proposed, awaiting Amish (no recommendation to accept). The message-by-message mapping needs the CiA 454 specification, which is distributed through a membership organization and was not read in this session |
+| 18 | EnergyBus gateway detail | Decided by Amish, 2026-10-02: deferred; the native SwapCell profile stays the reference and CiA 454 is read only when a partner needs EnergyBus. Previously: The message-by-message mapping needs the CiA 454 specification, which is distributed through a membership organization and was not read in this session |
 | 19 | Values chosen inside the approved additions W, C and V (10 kΩ coded interlock, 100 µA sleep limit, 25 g shock level, 330 N receiver preload, charge-FET fallback rule) | Decided by Amish, 2026-09-25: go with recommendation. Values confirmed as proposed (SWC-DDR-002) |
 | 20 | R3 thermal rating: keep 20 A continuous with temperature derating, or derate the label to 15 A | Decided by Amish, 2026-09-25: go with recommendation. Keep 20 A at 25 °C with the PACK_LIMITS derating; R3 restated (SWC-DDR-002) |
 

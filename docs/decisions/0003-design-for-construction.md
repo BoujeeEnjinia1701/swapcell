@@ -3,9 +3,9 @@ doc_id: SWC-DDR-003
 title: SwapCell design for construction
 project: SwapCell
 doc_type: Design decision record
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,12 +13,16 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Changes that make the concept physically buildable, with the reason for each; made under Amish's 2026-09-30 instruction to make the design physically buildable; open for his review
+- version: "0.2"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Accepted by Amish on 2026-10-02, including the recommendations for A1 to A4 (A3 changes the printed-lid decision for the prototype)"
 ---
 
 # 0003: Design for construction
 
 - **Date:** 2026-10-01
-- **Status:** Draft. Made under Amish's 2026-09-30 instruction to make the design physically buildable; open for his review. The items in Table 3 are proposed, awaiting Amish.
+- **Status:** accepted. Amish, 2026-10-02: "i approve your recommendations for all 555 open decisions." This covers every change in Tables 1 and 2 and the recommendations for A1 to A4 in Table 3, which are now decided as recommended and recorded in the design decisions register (SWC-DEC-001). A3 changes the printed-lid decision of 2026-09-25 for the prototype.
 
 ## Context
 
@@ -56,18 +60,19 @@ The changes keep what the product does and what the interface publishes: the 340
 | Documents | SWC-CAL-001 v0.3, SWC-REQ-001 v0.5, SWC-PRC-001 v0.5: mass, cost, thermal and latch description updated. No requirement changed status. | Follow the model. |
 | Interface | No published value changed. Two clarifications are proposed (A1, A2). | |
 
-*Table 3. Proposed, awaiting Amish.*
+*Table 3. Proposed, then accepted by Amish as recommended on 2026-10-02.*
 
 | # | Question | Options | Recommendation |
 | --- | --- | --- | --- |
-| A1 | The thumb button sits 3 to 19 mm behind the published handle zone (84 x 22 mm), so a receiver built to the letter of interface v0.3 could put structure over it. | (a) widen the handle zone in interface v0.4 to the full depth behind the handle (84 x 43 mm, from the zone's front edge to the back face); (b) move the release forward under the grip, which needs a lever. | (a): no change to the pack, one line in the interface. |
-| A2 | The catch geometry that makes the latch work (latching face 1 mm above the pawl, reach 8 mm from a plate 10 mm behind the pack, 4 mm engagement, 1 mm clear when retracted) is not published, but every receiver needs it. | (a) add it to interface v0.4 with the pawl's 6 mm projection and 5 mm travel; (b) leave it to each receiver design. | (a), so vehicle receivers in PowerBox, CargoMule and others latch the same way. |
-| A3 | A 90 x 340 mm lid needs a printer with a bed of at least 350 mm; Amish's 2026-09-25 decision was a printed lid. | (a) print it on a large-format printer; (b) cut it from 3 mm UL 94 V-0 polycarbonate sheet, same shape and holes. | (b) for the prototype: easier to source and flatter; the drawing allows either. |
-| A4 | Moving the cells 8 mm toward the lid (P2) leaves them clear of the back wall, so heat reaches the tray through the holder frames and air rather than through pads on the wall. The lumped thermal model keeps its 0.10 K/W core-to-tray assumption. | (a) keep the assumption and check it in the TRL 4 load test, relying on the PACK_LIMITS derating meanwhile; (b) add a thermal pad between the rear row of cells and the latch housing area now. | (a): the derating rule already holds cells under 60 °C whatever the path, and the test measures it. |
+| A1 | The thumb button sits 3 to 19 mm behind the published handle zone (84 x 22 mm), so a receiver built to the letter of interface v0.3 could put structure over it. | (a) widen the handle zone in interface v0.4 to the full depth behind the handle (84 x 43 mm, from the zone's front edge to the back face); (b) move the release forward under the grip, which needs a lever. | (a): no change to the pack, one line in the interface. Accepted 2026-10-02. |
+| A2 | The catch geometry that makes the latch work (latching face 1 mm above the pawl, reach 8 mm from a plate 10 mm behind the pack, 4 mm engagement, 1 mm clear when retracted) is not published, but every receiver needs it. | (a) add it to interface v0.4 with the pawl's 6 mm projection and 5 mm travel; (b) leave it to each receiver design. | (a), so vehicle receivers in PowerBox, CargoMule and others latch the same way. Accepted 2026-10-02. |
+| A3 | A 90 x 340 mm lid needs a printer with a bed of at least 350 mm; Amish's 2026-09-25 decision was a printed lid. | (a) print it on a large-format printer; (b) cut it from 3 mm UL 94 V-0 polycarbonate sheet, same shape and holes. | (b) for the prototype: easier to source and flatter; the drawing allows either. Accepted 2026-10-02, changing the printed-lid decision of 2026-09-25 for the prototype. |
+| A4 | Moving the cells 8 mm toward the lid (P2) leaves them clear of the back wall, so heat reaches the tray through the holder frames and air rather than through pads on the wall. The lumped thermal model keeps its 0.10 K/W core-to-tray assumption. | (a) keep the assumption and check it in the TRL 4 load test, relying on the PACK_LIMITS derating meanwhile; (b) add a thermal pad between the rear row of cells and the latch housing area now. | (a): the derating rule already holds cells under 60 °C whatever the path, and the test measures it. Accepted 2026-10-02, with the battery board's temperature sensor on the rear row of cells, now furthest from the tray. |
 
 ## Consequences
 
 - `design_state: constructable` in `project.yaml`. The build plan SWC-BLD-001 shows every component and step in pictures generated from the model (`cad/src/build_plan_media.py`); open items are in the design decisions register SWC-DEC-001.
 - Requirement status is unchanged: none not met, 2 at risk (R2, R9), 5 not verifiable at TRL 3, 8 met (four on paper only), and R16 under the value-engineering target (SWC-CAL-001 v0.3).
 - The photoreal renders (`media/render-*.png`), `media/card.png` and `media/social-preview.png` still show the concept: six lid screws instead of eight, a 10 mm pawl, guides standing off the back plate, a shorter back plate and no charger straps. They need regenerating on Amish's Mac, where Blender is. The appearance model `cad/src/product_model.py` reads its sizes from the model and was not edited.
+- With A1 and A2 accepted, the SwapCell interface is issued as v0.4 in SWC-PRC-001 (handle zone 84 x 43 mm; catch geometry published). With A3, the prototype lid is cut from 3 mm UL 94 V-0 polycarbonate sheet. With A4, the battery board's temperature sensor goes on the rear row of cells.
 - TRL 4 remains on hold by Amish's instruction. Nothing was built or bought.

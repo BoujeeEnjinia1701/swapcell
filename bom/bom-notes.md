@@ -15,3 +15,5 @@ Value-engineering target: USD 700 (`budget_usd` in `project.yaml`, a hypothetica
 A second pack for a real swap demonstration would add about USD 436 (total about USD 1,042). Amish decided on 2026-09-25 (SWC-DDR-002) that this build budget is set before any build; it is on hold with TRL 4.
 
 Cells must be new, matched and bought from an authorized distributor. Do not substitute recycled or unknown-grade cells in the reference pack.
+
+Decisions of 2026-10-02 (SWC-DEC-001): the prototype lid (line 4) is cut from 3 mm UL 94 V-0 polycarbonate sheet rather than printed; its supplier and price are still those of the printed lid until requoted. The state-of-charge light bar is an optional pack feature under line 14 and the dock status light sits under line 11; neither is in the prototype's quantities. No quantity or price changed.

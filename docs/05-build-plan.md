@@ -3,9 +3,9 @@ doc_id: SWC-BLD-001
 title: SwapCell prototype build plan
 project: SwapCell
 doc_type: Build plan
-version: "0.1"
+version: "0.2"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -13,6 +13,10 @@ revisions:
     date: '2026-10-01'
     author: Amish Chadha
     change: First build plan, with pictures by component and step; design made constructable (SWC-DDR-003)
+  - version: "0.2"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: "Decisions of 2026-10-02: lid cut from 3 mm UL 94 V-0 polycarbonate sheet; board temperature sensor on the rear row of cells. Pictures unchanged"
 ---
 
 # SwapCell prototype build plan
@@ -192,7 +196,7 @@ Wire the pack and dock as Figure 12, with stranded silicone copper:
 1. Cell block positive to the battery management board's cell input: 6 mm² (10 AWG).
 2. The board's switched output, through the 40 A main fuse, to the plug's PACK+ contact: 6 mm².
 3. Cell block negative to the plug's PACK- contact and the board's ground: 6 mm².
-4. Thirteen sense leads, one from each group, and the cell temperature sensors to the board's balance connector: 0.25 mm², connected only at safety stop S3.
+4. Thirteen sense leads, one from each group, and the cell temperature sensors to the board's balance connector, with the board's temperature sensor on the rear row of cells (furthest from the tray): 0.25 mm², connected only at safety stop S3.
 5. CAN high and low, WAKE, INTERLOCK and signal ground from the board to the plug: 0.25 mm², CAN as a twisted pair.
 6. The wake button to the board's wake input: 0.25 mm².
 7. In the dock: the receptacle's PACK+ and PACK- to the controller box's relay and current sensor and on to the charger output: 2.5 mm² (14 AWG); the receptacle's CAN and signal ground to the controller's CAN transceiver: 0.25 mm², twisted, with a 120 Ω termination in the controller. Solder the 10 kΩ coding resistor between the receptacle's INTERLOCK and signal ground pins.
@@ -226,7 +230,7 @@ Wire the pack and dock as Figure 12, with stranded silicone copper:
 
 *Figure 15. Pack lid making sketch (SWC-DWG-108).*
 
-**What it is and what it is made from.** The front face of the pack, removable for repair. Flame-retardant polymer 3 mm, UL 94 V-0 grade: printed on a printer with a bed of at least 350 mm, or cut from 3 mm V-0 sheet to the same shape.
+**What it is and what it is made from.** The front face of the pack, removable for repair. For the prototype, cut from 3 mm UL 94 V-0 polycarbonate sheet. A lid printed in a V-0 grade polymer on a printer with a bed of at least 350 mm, to the same shape, is also allowed.
 
 **How to make it.**
 

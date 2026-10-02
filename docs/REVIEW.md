@@ -257,3 +257,41 @@ All listed in `docs/06-design-decisions.md`: acceptance of SWC-DDR-003; widening
 ### Recommended next step
 
 Amish reviews SWC-DDR-003 and the register items 1 to 5. If accepted, issue interface v0.4 with the handle-zone and catch clarifications and tell the dependent repos. TRL 4 remains on hold.
+
+## Session 2026-10-02: open decisions decided
+
+On 2026-10-02 Amish approved the recommendations for every open decision: "i approve your recommendations for all 555 open decisions." The 13 open decisions of the design decisions register are now in its Decisions made table, dated 2026-10-02.
+
+SWC-DDR-003 (design for construction) is accepted, with A1 to A4 decided as recommended. The SwapCell interface is issued as v0.4 in SWC-PRC-001: the handle zone is 84 x 43 mm, the catch geometry is published, and a chemistry code and coding key are reserved for a future LFP variant. A3 changes Amish's printed-lid decision of 2026-09-25 for the prototype (review flag 2): the lid is cut from 3 mm UL 94 V-0 polycarbonate sheet. Items 14, 16 and 18 of SWC-DDR-001 are recorded as decided. Item 12 was decided with item 2 (review flag 1).
+
+### Documents changed
+
+- `docs/06-design-decisions.md` (SWC-DEC-001 v0.2)
+- `docs/decisions/0003-design-for-construction.md` (SWC-DDR-003 v0.2)
+- `docs/decisions/0001-trl2-review-decisions.md` (SWC-DDR-001 v0.3)
+- `docs/decisions/0002-recommendations-accepted.md` (SWC-DDR-002 v0.2)
+- `docs/01-problem.md` (SWC-PRB-001 v0.4)
+- `docs/02-concept.md` (SWC-PRC-001 v0.6)
+- `docs/03-requirements.md` (SWC-REQ-001 v0.6)
+- `docs/05-build-plan.md` (SWC-BLD-001 v0.2)
+- `bom/bom-notes.md` (not a controlled document)
+- `README.md` (not a controlled document)
+
+### Follow-up actions to carry approved decisions into the design
+
+1. Decision 2: Drawings: show the 84 x 43 mm handle zone on the interface drawing and on SWC-DWG-001.
+2. Decision 3: Drawings: add the catch geometry (latching face, reach, engagement, pawl projection and travel) to the interface drawing and the dock catch making sketch.
+3. Decision 2: Ask the repos that build to the interface to move from v0.3 to v0.4 and check their receivers leave the wider handle zone clear and use the published catch geometry (cargomule, cellguard, coldpod, culvertcrawl, dewdrive, dockhub, dustrunner, fieldcell, flattrike, lumaflow, motioncore, powerbox, stepclimber, stepgen, sunspoke, wastewise-scan, waterwalker, waterwatch, zeerbox).
+4. Decision 2: Firmware: report interface minor version 4 in PACK_STATUS when the firmware is written or next changed.
+5. Decision 4: BOM: change line 4 to 3 mm UL 94 V-0 polycarbonate sheet, with a sheet supplier and price; drop the large-format printer note.
+6. Decision 4: Drawings: make SWC-DWG-108 name polycarbonate sheet as the prototype material.
+7. Decision 5: Model and build plan pictures: show the battery board's temperature sensor on the rear row of cells in the wiring figure.
+8. Decision 7: Calculations and message set: assign the reserved LFP chemistry code value and the connector coding key geometry when an LFP variant is designed; add the key to the model then.
+9. Decision 1: Renders: regenerate the photoreal renders, `media/card.png` and `media/social-preview.png` on Amish's Mac to show the accepted design (eight lid screws, 6 mm pawl, longer back plate, charger straps); items 9 to 13 follow with them.
+
+### Points found in the review
+
+1. Item 12 duplicates item 2: if item 2 is approved as (a), item 12 is decided with it.
+2. Item 4 reverses a decision Amish already made (printed lid, 2026-09-25); the register should say so rather than treat it as new.
+
+No CAD model, BOM quantity or price, calculation result or picture was changed. TRL stays at 3; TRL 4 remains on hold.

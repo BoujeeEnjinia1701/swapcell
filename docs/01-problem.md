@@ -3,9 +3,9 @@ doc_id: SWC-PRB-001
 title: SwapCell problem statement
 project: SwapCell
 doc_type: Problem statement
-version: "0.3"
+version: "0.4"
 status: Draft
-date: '2026-09-25'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -21,6 +21,10 @@ revisions:
   date: '2026-09-25'
   author: Amish Chadha
   change: TRL 3. Record Amish's 2026-09-25 decisions (SWC-DDR-001); dependents and needs updated for interface v0.3; budget scope
+- version: "0.4"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Partner order and LFP decision of 2026-10-02 recorded"
 ---
 
 # SwapCell problem statement
@@ -64,7 +68,7 @@ SwapCell proposes an open, documented interface: one pack envelope, one blind-ma
 - Automated or robotic swap stations, payment, booking and user accounts.
 - A cloud fleet platform. The dock exports logs locally; any server is the operator's choice.
 - Motor controllers and vehicle frames, beyond the mount that receives the pack.
-- Fast charging above 1C and battery chemistries other than lithium-ion NMC or NCA cells in the reference pack (an LFP variant is an open question).
+- Fast charging above 1C and battery chemistries other than lithium-ion NMC or NCA cells in the reference pack (an LFP variant is not added now; a chemistry code and coding key are reserved for it, decided 2026-10-02).
 - Certification testing. Relevant standards are listed as future targets, not claims.
 
 ## Prior work
@@ -79,5 +83,5 @@ SwapCell proposes an open, documented interface: one pack envelope, one blind-ma
 
 ## Open questions
 
-- Which user group to design with first: a delivery fleet, a rural e-bike cooperative, or a repair workshop? Still open: the portfolio picks co-design partners per area later. Proposed, awaiting Amish.
+- Which user group to design with first: a delivery fleet, a rural e-bike cooperative, or a repair workshop? The portfolio picks co-design partners per area later; decided 2026-10-02: an urban cargo-bike or e-bike delivery fleet is approached first, with a repair workshop second.
 - Message set: decided by Amish, 2026-09-25: an open SwapCell profile with an EnergyBus gateway study (SWC-DDR-001 item 4).
