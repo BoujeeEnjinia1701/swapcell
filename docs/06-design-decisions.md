@@ -3,7 +3,7 @@ doc_id: SWC-DEC-001
 title: SwapCell design decisions register
 project: SwapCell
 doc_type: Design decisions register
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -17,6 +17,10 @@ revisions:
   date: '2026-10-02'
   author: Amish Chadha
   change: "Amish approved the recommendations for all open decisions 1 to 13 on 2026-10-02 (SWC-DDR-003 accepted; interface v0.4 handle zone and catch geometry; polycarbonate sheet lid; LFP code reserved; EnergyBus deferred); moved to decisions made"
+- version: "0.3"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Cost line updated for the polycarbonate sheet lid (USD 619, USD 81 under the target)"
 ---
 
 # SwapCell design decisions register
@@ -41,7 +45,7 @@ None. All open decisions were decided on 2026-10-02.
 
 ## Value engineering
 
-Value-engineering target: USD 700 (a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 606 (USD 94 under the target): USD 436 for the pack and USD 170 for the dock. Main cost drivers and savings worth trying:
+Value-engineering target: USD 700 (a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 619 (USD 81 under the target): USD 449 for the pack and USD 170 for the dock. Main cost drivers and savings worth trying:
 
 - The largest lines are the 26 cells (USD 143), the battery management board (USD 120), the charger (USD 60), the plug and receptacle with their contacts (USD 60 together), the dock cradle (USD 40) and the fuses and wiring (USD 36).
 - Making the design constructable added USD 47 (SWC-DDR-003): the latch housing, slider and springs (USD 10), the cell holder frames (USD 6, moved from the wiring line, which fell by USD 4), the dock mounting parts (USD 15), the longer back plate (USD 10), the tray flanges (USD 5) and more fixings (USD 5).

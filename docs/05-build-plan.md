@@ -3,7 +3,7 @@ doc_id: SWC-BLD-001
 title: SwapCell prototype build plan
 project: SwapCell
 doc_type: Build plan
-version: "0.2"
+version: "0.3"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -17,6 +17,10 @@ revisions:
     date: '2026-10-02'
     author: Amish Chadha
     change: "Decisions of 2026-10-02: lid cut from 3 mm UL 94 V-0 polycarbonate sheet; board temperature sensor on the rear row of cells. Pictures unchanged"
+  - version: "0.3"
+    date: '2026-10-02'
+    author: Amish Chadha
+    change: "Approved follow-ups carried out: wiring figure shows the board temperature sensor; lid and catch sketches revised (SWC-DWG-108 and 112 Rev P2); interface v0.4 catch sizes; cost USD 619"
 ---
 
 # SwapCell prototype build plan
@@ -29,7 +33,7 @@ revisions:
 
 *Figure 1. Every component pulled apart and numbered in build order: the pack (1 to 11) up and to the left, the wall dock (12 to 20) on the right.*
 
-The prototype is one SwapCell pack and one wall dock. The pack is a folded aluminium box, 340 x 90 x 80 mm, holding 26 lithium-ion cells in two printed frames and a battery management board, closed by a lid on a gasket, with a carry handle on top, a keyed plug underneath and a spring latch on its back. The dock is a 12 mm aluminium plate on the wall carrying a printed shelf and two printed guides that the pack drops between, a floating receptacle in the shelf, a steel catch for the latch, a controller box and a bought, certified charger. Figure 1 shows the 20 components in the order you make or fit them. Fourteen are made in a small workshop: the tray, latch housing, latch pawl, release slider and button, plug shroud, cell holder frames, handle and lid of the pack; the back plate, shelf, guides, catch, receptacle shroud, retainer plate and charger straps of the dock. The cells, the battery management board, the contacts, the charger, the controller and the fixings are bought. The work is folding and drilling aluminium sheet, cutting and drilling plate and steel bar, filing, 3D printing, fitting heat-set inserts, spot welding nickel strip, and wiring at block level. The parts cost about USD 606 from the bill of materials.
+The prototype is one SwapCell pack and one wall dock. The pack is a folded aluminium box, 340 x 90 x 80 mm, holding 26 lithium-ion cells in two printed frames and a battery management board, closed by a lid on a gasket, with a carry handle on top, a keyed plug underneath and a spring latch on its back. The dock is a 12 mm aluminium plate on the wall carrying a printed shelf and two printed guides that the pack drops between, a floating receptacle in the shelf, a steel catch for the latch, a controller box and a bought, certified charger. Figure 1 shows the 20 components in the order you make or fit them. Fourteen are made in a small workshop: the tray, latch housing, latch pawl, release slider and button, plug shroud, cell holder frames, handle and lid of the pack; the back plate, shelf, guides, catch, receptacle shroud, retainer plate and charger straps of the dock. The cells, the battery management board, the contacts, the charger, the controller and the fixings are bought. The work is folding and drilling aluminium sheet, cutting and drilling plate and steel bar, filing, 3D printing, fitting heat-set inserts, spot welding nickel strip, and wiring at block level. The parts cost about USD 619 from the bill of materials.
 
 > **Safety:** The pack stores about 468 Wh in lithium-ion cells at up to 54.6 V and can deliver about 500 A into a short. A cell in thermal runaway vents flammable, toxic gas and can set its neighbours alight. Build, charge and test the pack only inside a fireproof enclosure on a non-combustible surface, with a lithium-rated or Class D extinguisher and a bucket of sand at hand, and never leave it unattended. Use insulated tools, keep the battery management board unplugged until section 6 says otherwise, and stop at every safety stop in section 6. The dock charger plugs into a mains socket; no mains wiring is part of this build.
 
@@ -187,7 +191,7 @@ Make and check each component before the assembly step that needs it. Sizes are 
 
 ![Figure 12. Wiring at block level](05-build-plan/wiring.png)
 
-*Figure 12. Block-level wiring with wire sizes. No circuit board is laid out at this stage; the battery management board is bought.*
+*Figure 12. Block-level wiring with wire sizes. The board's temperature sensor (T) sits on the rear row of cells, on the middle group. No circuit board is laid out at this stage; the battery management board is bought.*
 
 #### 3.6.1 Wiring
 
@@ -196,7 +200,7 @@ Wire the pack and dock as Figure 12, with stranded silicone copper:
 1. Cell block positive to the battery management board's cell input: 6 mm² (10 AWG).
 2. The board's switched output, through the 40 A main fuse, to the plug's PACK+ contact: 6 mm².
 3. Cell block negative to the plug's PACK- contact and the board's ground: 6 mm².
-4. Thirteen sense leads, one from each group, and the cell temperature sensors to the board's balance connector, with the board's temperature sensor on the rear row of cells (furthest from the tray): 0.25 mm², connected only at safety stop S3.
+4. Thirteen sense leads, one from each group, and the cell temperature sensors to the board's balance connector, with the board's temperature sensor taped along the middle cell of the rear row (the row nearer the back face), as Figure 12 shows: 0.25 mm², connected only at safety stop S3.
 5. CAN high and low, WAKE, INTERLOCK and signal ground from the board to the plug: 0.25 mm², CAN as a twisted pair.
 6. The wake button to the board's wake input: 0.25 mm².
 7. In the dock: the receptacle's PACK+ and PACK- to the controller box's relay and current sensor and on to the charger output: 2.5 mm² (14 AWG); the receptacle's CAN and signal ground to the controller's CAN transceiver: 0.25 mm², twisted, with a 120 Ω termination in the controller. Solder the 10 kΩ coding resistor between the receptacle's INTERLOCK and signal ground pins.
@@ -234,7 +238,7 @@ Wire the pack and dock as Figure 12, with stranded silicone copper:
 
 **How to make it.**
 
-1. Make a flat plate 90 x 340 x 3.
+1. Cut a flat plate 90 x 340 from the 3 mm sheet with a fine-toothed saw or have the supplier cut it; smooth the edges.
 2. Drill eight 3.4 mm holes, countersunk on the outside, 39.5 each side of centre, 30, 125, 215 and 310 up.
 3. Drill the wake button hole 13 mm, centred across, 270 up.
 4. Fit the sealed wake button with its nut inside.
@@ -319,7 +323,7 @@ Wire the pack and dock as Figure 12, with stranded silicone copper:
 1. Cut 50 long; square and deburr. The bottom face is the latching face: keep it flat and square.
 2. Drill and tap two M5 holes 7 deep in the back face, 16 each side of centre, half way up.
 
-**How it fits the parts next to it.** The back face sits flat on the plate front, centred, 544 up from the plate's bottom, on two M5 countersunk screws from behind. It stands 8 mm out from the plate and ends 2 mm short of the pack's back face. With the pack seated, the pawl sits 1 mm below it and overlaps it by 4 mm (Figure 21).
+**How it fits the parts next to it.** The back face sits flat on the plate front, centred, 544 up from the plate's bottom, on two M5 countersunk screws from behind. It stands 8 mm out from the plate and ends 2 mm short of the pack's back face. With the pack seated, the pawl sits 1 mm below it and overlaps it by 4 mm (Figure 21). These are the catch sizes every SwapCell receiver uses: latching face 1 mm above the pawl, reach 8 mm, engagement 4 mm, pawl standing 6 mm proud and moving 5 mm when released.
 
 **Check before moving on.** With the pack in the dock, lifting it by the handle without pressing the button does not bring it out.
 
@@ -553,8 +557,8 @@ Stop at each point. Carry on only when everything listed is true.
 
 - Model and constructability checks: `cad/src/model.py` (`python cad/src/model.py --check`); STEP and STL exports in `cad/step/` and `cad/stl/`.
 - Pictures: `cad/src/build_plan_media.py`, using `.kit/build_views.py`; written to `docs/05-build-plan/` and `cad/drawings/SWC-DWG-101` to `SWC-DWG-115`.
-- General arrangement: `cad/drawings/SWC-DWG-002.pdf`, Rev P3.
-- Calculations: `docs/04-calcs/01-sizing.md` (SWC-CAL-001 v0.3) and `docs/04-calcs/sizing.py`: mass (section 3), thermal (section 4), latch (section 6), cost (section 8).
+- General arrangement: `cad/drawings/SWC-DWG-002.pdf`, Rev P4.
+- Calculations: `docs/04-calcs/01-sizing.md` (SWC-CAL-001 v0.4) and `docs/04-calcs/sizing.py`: mass (section 3), thermal (section 4), latch (section 6), cost (section 8).
 - Bill of materials: `bom/bom.csv` and `bom/bom-notes.md`.
 - Decisions: `docs/decisions/0003-design-for-construction.md` (SWC-DDR-003), with SWC-DDR-001 and SWC-DDR-002.
 - Requirements: `docs/03-requirements.md` (SWC-REQ-001 v0.5). Interface: `docs/02-concept.md` (SWC-PRC-001 v0.5).

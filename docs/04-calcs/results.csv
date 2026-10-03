@@ -14,4 +14,4 @@ R12,"Bus load 1.8 %; log 62.5 KiB, 10 s","CAN 250 kbit/s, 2,000 records, CSV exp
 R13,Sleep drain 0.72 %/month; coded INTERLOCK 0.30 V window,Wake with no host supply; 1 %/month or less,Met (on paper)
 R14,"Net 3.8 A charge in the PowerBox case, within 5.0 A",Charge-discharge mode within limits,Met (on paper)
 R15,Proof 1717 N; bearing margin 4.2x; lever ratio 6.6,"Class V1 vibration and shock, no release",Not verifiable at TRL 3
-R16,"Pack and dock parts 606 USD, 94 USD under the target",Value-engineering target 700 USD for one pack and one dock,Under the target
+R16,"Pack and dock parts 619 USD, 81 USD under the target",Value-engineering target 700 USD for one pack and one dock,Under the target

@@ -22,7 +22,7 @@ from model import PARAMS as P, build_components, derived, bx, wall_context  # no
 
 OUT = ROOT / "docs" / "05-build-plan"
 DWG = ROOT / "cad" / "drawings"
-DATE = "2026-10-01"
+DATE = "2026-10-01"  # sheets changed later pass their own date
 D = derived(P)
 C = build_components(P)
 
@@ -117,7 +117,7 @@ def sheets(only=None):
     def sheet(no, *a, **k):
         if only and no not in only:
             return
-        out.append(bv.component_sheet(*a, dwg_no=f"SWC-DWG-{no}", **k, **base))
+        out.append(bv.component_sheet(*a, dwg_no=f"SWC-DWG-{no}", **{**base, **k}))
 
     sheet(101, Part("Pack tray", C["tray"].shape, COL["tray"]), [M["plate"], M["shelf"], M["guides"]],
           title="SwapCell pack tray: making sketch", material="Aluminium sheet 1.5 mm, 5052-H32",
@@ -240,9 +240,11 @@ def sheets(only=None):
 
     ld = C["lid"].shape
     sheet(108, Part("Pack lid", ld, COL["lid"]), [M["tray"], M["gasket"]],
-          title="SwapCell pack lid: making sketch", material="Flame-retardant polymer 3 mm, UL 94 V-0 grade",
+          title="SwapCell pack lid: making sketch", material="Polycarbonate sheet 3 mm, UL 94 V-0 grade",
+          rev="P2", date="2026-10-02", revisions=[("P1", "Making sketch for the prototype build plan", "2026-10-01", "AC"),
+                                                 ("P2", "Prototype material: 3 mm UL 94 V-0 polycarbonate sheet", "2026-10-02", "AC")],
           view_shape=b.Pos(0, 0, -z0) * ld, inset_view=(20, -60),
-          notes=["A flat plate 90 x 340 x 3 (printed, or cut from V-0 sheet).",
+          notes=["Cut 90 x 340 from 3 mm UL 94 V-0 polycarbonate sheet.",
                  "Eight 3.4 holes countersunk on the outside, 39.5 each side of",
                  "  centre, 30, 125, 215 and 310 up from the connector end.",
                  "Wake button hole 13 dia, centred across, 270 up.",
@@ -299,6 +301,8 @@ def sheets(only=None):
     ct = C["catch"].shape
     sheet(112, Part("Latch catch", ct, COL["catch"]), [M["plate"], M["guides"], M["shelf"]],
           title="SwapCell latch catch: making sketch", material="Steel flat bar 12 x 8 mm, zinc plated",
+          rev="P2", date="2026-10-02", revisions=[("P1", "Making sketch for the prototype build plan", "2026-10-01", "AC"),
+                                                 ("P2", "Interface v0.4 catch geometry added to the notes", "2026-10-02", "AC")],
           view_shape=b.Pos(0, 0, -D["catch_z"][0]) * ct, inset_view=(15, -35),
           notes=["Cut 50 long from 12 x 8 flat bar; square and deburr.",
                  "The bottom face is the latching face: keep it flat and square.",
@@ -306,8 +310,10 @@ def sheets(only=None):
                  "  centre, half way up.",
                  "Fit: back face flat on the plate front, centred, 544 up from",
                  "  the plate bottom; two M5 countersunk screws from behind.",
-                 "It stands 8 out from the plate and ends 2 from the pack's back.",
-                 "With the pack seated, the pawl sits 1 below it, overlapping 4.",
+                 "Interface v0.4 catch geometry (every receiver the same):",
+                 "  latching face 1 above the pawl top; reach 8 from the plate;",
+                 "  engagement 4; pawl projection 6; pawl travel 5. It ends 2",
+                 "  from the pack's back; the retracted pawl clears it by 1.",
                  "Check: lift the seated pack by its handle: the pawl stops it."])
 
     rc = C["receptacle"].shape
@@ -599,6 +605,12 @@ def wiring():
     # pack wiring
     wire([(19, 55), (31, 55)], RED); lab(25, 57, "B+ 6 mm²", RED, "center")
     wire([(19, 50), (31, 50)], GRY, 1.2); lab(25, 47.6, "13 sense leads\nand thermistors\n0.25 mm²", GRY, "center")
+    # board temperature sensor: on the middle cell of the rear row (decision of 2026-10-02)
+    ax.add_patch(FancyBboxPatch((8.5, 45.2), 6, 2.0, boxstyle="round,pad=0.2", fc="#FEF3C7", ec=ORG, lw=1.2, zorder=2))
+    ax.text(11.5, 46.2, "T", fontsize=7, fontweight="bold", color=ORG, ha="center", va="center", zorder=3)
+    wire([(14.5, 46.2), (17, 46.2), (17, 50), (19, 50)], ORG, 1.2)
+    ax.text(3.5, 40.6, "T: board temperature\nsensor (NTC) on the\nrear row, middle group", fontsize=6.6,
+            color=ORG, va="center", linespacing=1.25)
     wire([(40, 44), (40, 36)], RED); lab(40.6, 40, "PACK+ 6 mm²", RED)
     wire([(40, 26), (40, 18), (46, 18)], RED); lab(39.4, 21.5, "6 mm²", RED, "right")
     wire([(15, 44), (15, 40), (24, 40), (24, 14), (46, 14)], BLK); lab(34, 12.2, "B- to PACK- 6 mm²", BLK, "center")

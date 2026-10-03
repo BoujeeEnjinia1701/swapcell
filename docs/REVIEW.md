@@ -295,3 +295,47 @@ SWC-DDR-003 (design for construction) is accepted, with A1 to A4 decided as reco
 2. Item 4 reverses a decision Amish already made (printed lid, 2026-09-25); the register should say so rather than treat it as new.
 
 No CAD model, BOM quantity or price, calculation result or picture was changed. TRL stays at 3; TRL 4 remains on hold.
+
+## Session 2026-10-02: approved follow-ups carried out
+
+Amish approved on 2026-10-02 that every follow-up action from the open-decision sign-off be carried out ("APPROVED CHANGES, COMPLETE THESE"). Status of the nine follow-ups listed above:
+
+1. Handle zone on the interface drawing and SWC-DWG-001: done. The general arrangement SWC-DWG-002 (Rev P4) now carries Detail A, the 84 x 43 mm handle zone on the top end with the handle and thumb button inside it, and its interface notes are headed v0.4. The concept blueprint SWC-DWG-001 key figures name interface v0.4 and the 84 x 43 mm zone. The model has a check that the handle, thumb button and screws above the top end lie inside the zone.
+2. Catch geometry on the interface drawing and the catch making sketch: done. SWC-DWG-002 Rev P4 Detail B shows the latching face 1 mm above the pawl, 8 mm reach, 4 mm engagement, 6 mm pawl projection and 5 mm travel; SWC-DWG-112 Rev P2 lists the same sizes; the build plan's catch section states them. Three model checks hold the published values.
+3. Ask the receiver repos to move to v0.4: not done here; outreach and work in other repos (listed under Cross-repo actions below).
+4. Firmware to report interface minor version 4 in PACK_STATUS: not done; firmware is TRL 4 work and none is written yet.
+5. BOM line 4: done. 3 mm UL 94 V-0 polycarbonate sheet cut to size by a plastics distributor, USD 25 (estimate: one cut piece of about 0.03 m² with a one-off cutting charge; was USD 12 of filament); the large-format printer note is dropped.
+6. SWC-DWG-108 names polycarbonate sheet: done (Rev P2).
+7. Board temperature sensor on the rear row of cells in the model and the wiring figure: done. The model has the sensor on the middle cell of the rear row, with three new checks (on the cell, clear of the tray and latch housing by 3 mm or more, on the rear row); the wiring figure (Figure 12) shows it as "T".
+8. LFP chemistry code and coding key geometry: not done; the decision assigns them only when an LFP variant is designed.
+9. Photoreal renders, `media/card.png` and `media/social-preview.png`: not done here; they are made on Amish's Mac. The appearance model and the render scenes are ready for them (below).
+
+### Results
+
+- Constructability checks: 78 of 78 pass (71 before, plus 3 for the sensor, 3 for the catch geometry and 1 for the handle zone). STEP and STL regenerated.
+- Cost: Value-engineering target: USD 700. Estimated cost of the constructable design: USD 619 (USD 81 under the target). Pack USD 449, dock USD 170. `budget_usd` unchanged.
+- Mass: unchanged at about 3.03 kg; the polycarbonate sheet has the density the calculation already used (1.20 g/cm³), and the sensor is part of line 12.
+- Requirement status: no change. R16 stays under the target (USD 619).
+- Appearance model (`cad/src/product_model.py`) brought into line with the constructable design: eight flush countersunk lid screws, polycarbonate sheet lid, 6 mm pawl and the thumb button behind the grip, rivets and holder screws on the back face, cells at the model's rows with the sensor, the 580 mm back plate at its model height, guides and catch at model positions, the two charger straps, the controller box on the plate between charger and shelf, wall screws at the model's wall holes, labels reading interface v0.4. RENDER_VIEWS unchanged (hero, exploded, detail). Render scenes exported to `/home/claude/renders/swapcell`.
+
+### Documents changed
+
+- `cad/src/model.py`, `cad/step/*.step`, `cad/stl/*.stl`
+- `cad/src/sheets.py`, `cad/drawings/SWC-DWG-002.*` (Rev P3 to P4)
+- `cad/src/build_plan_media.py`, `cad/drawings/SWC-DWG-108.*` and `SWC-DWG-112.*` (Rev P1 to P2), `docs/05-build-plan/wiring.png`
+- `cad/src/concept_media.py`, `media/` concept set (hero, cutaway, exploded, flow, blueprint SWC-DWG-001, `model.glb`, `viewer.html`)
+- `cad/src/product_model.py`
+- `bom/bom.csv` (line 4, line 3 note), `bom/bom-notes.md`
+- `docs/04-calcs/sizing.py`, `docs/04-calcs/results.csv`, `docs/04-calcs/01-sizing.md` (SWC-CAL-001 v0.3 to v0.4)
+- `docs/02-concept.md` (SWC-PRC-001 v0.6 to v0.7), `docs/03-requirements.md` (SWC-REQ-001 v0.6 to v0.7), `docs/05-build-plan.md` (SWC-BLD-001 v0.2 to v0.3), `docs/06-design-decisions.md` (SWC-DEC-001 v0.2 to v0.3), `README.md`
+- All PDFs re-rendered.
+
+### Cross-repo actions
+
+- Move to interface v0.4 and check that receivers leave the 84 x 43 mm handle zone clear and use the published catch geometry: cargomule, cellguard, coldpod, culvertcrawl, dewdrive, dockhub, dustrunner, fieldcell, flattrike, lumaflow, motioncore, powerbox, stepclimber, stepgen, sunspoke, wastewise-scan, waterwalker, waterwatch, zeerbox. Their SwapCell cost citation also changes from USD 436 to USD 449 per pack.
+
+No decision was made in this session beyond those Amish approved. TRL stays at 3; TRL 4 remains on hold.
+
+## 2026-10-02: photoreal renders redone on the constructable design
+
+Rendered with Blender Cycles on Amish's Mac from the updated appearance model; captioned with `.kit/photo_caption.py`; `media/card.png` and `media/social-preview.png` regenerated with `.kit/cards.py`. Views: hero, exploded, detail. image_qc passes. Appearance deviations are those logged above as proposed, awaiting Amish.

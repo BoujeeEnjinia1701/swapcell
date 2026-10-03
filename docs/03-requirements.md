@@ -3,7 +3,7 @@ doc_id: SWC-REQ-001
 title: SwapCell requirements
 project: SwapCell
 doc_type: Requirements
-version: "0.6"
+version: "0.7"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -33,6 +33,10 @@ revisions:
   date: '2026-10-02'
   author: Amish Chadha
   change: "Interface v0.4 noted (decisions of 2026-10-02); no requirement target or status changed"
+- version: "0.7"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "R16 figures updated for the polycarbonate sheet lid (USD 619, USD 81 under the target); no requirement status changed"
 ---
 
 # SwapCell requirements
@@ -56,7 +60,7 @@ These are the requirements for the pack, the dock and the SwapCell interface bet
 | R13 | Wake for hosts without CAN or a wake supply (interface v0.3 item W) | Pack wakes from sleep when a receiver closes INTERLOCK through a 10 kΩ coding resistor, drawing no supply from the host; also wakes on WAKE (5 to 15 V) or its manual button; rejects a shorted or open loop; sleep drain 1 % of capacity per month or less; legacy discharge-only mode at 15 A for hosts without CAN | Calculation; later bench check | Met on paper |
 | R14 | Charge-while-discharging mode (interface v0.3 item C) | Dock, station and vehicle hosts may request mode 4 (charge-discharge); pack allows net current between the allowed charge and allowed discharge limits without interrupting its output, and on a charge-side fault stops charge only and keeps discharge | Message set review; calculation; later bench check | Met on paper |
 | R15 | Latch vibration rating for vehicles (interface v0.3 item V) | Class V1 vehicle receivers and the pack latch: no latch release and no power-contact interruption of 1 ms or longer under the UN 38.3 test T3 sine profile (7 to 200 Hz, peak 8 g) in three axes and 25 g, 11 ms half-sine shocks; latch proof load 1.72 kN along the insertion axis; receiver preload 330 N or more with 50 N or less hand force. Class D (gravity docks) needs no rating | Calculation; later vibration test (TRL 4, on hold) | Not verifiable at TRL 3 |
-| R16 | Prototype cost scope | Parts for one pack and one wall dock at the USD 700 value-engineering target or under (`budget_usd` in `project.yaml`, a hypothetical control target, not a limit). A SwapCell pack is priced once, here, and excluded from each dependent kit budget | Priced BOM | Under the target: USD 606, USD 94 under |
+| R16 | Prototype cost scope | Parts for one pack and one wall dock at the USD 700 value-engineering target or under (`budget_usd` in `project.yaml`, a hypothetical control target, not a limit). A SwapCell pack is priced once, here, and excluded from each dependent kit budget | Priced BOM | Under the target: USD 619, USD 81 under |
 
 ## Assumptions
 
@@ -67,6 +71,6 @@ These are the requirements for the pack, the dock and the SwapCell interface bet
 - R9 depends on the cell chosen. High-energy 21700 cells often quote fewer cycles than high-power cells; see SWC-PRC-001.
 - R13 to R15 were approved by Amish on 2026-09-25 as interface v0.3 additions. The specific values (10 kΩ coding, 100 µA sleep target, 25 g shock, 330 N preload) were engineering proposals inside those additions; Amish confirmed them on 2026-09-25 (SWC-DDR-002).
 - R15 uses the UN 38.3 test T3 vibration profile because every pack must pass it for transport anyway; the 25 g shock is a proposed curb-strike level for rigid cargo vehicles.
-- R16: the USD 700 value-engineering target covers the parts for one pack and one dock. A second pack for a real swap demonstration (about USD 436 more, about USD 1,042 in total with the constructable design) is a build budget, to be set before any build as Amish decided on 2026-09-25 (SWC-DDR-002); it is on hold with TRL 4.
+- R16: the USD 700 value-engineering target covers the parts for one pack and one dock. A second pack for a real swap demonstration (about USD 449 more, about USD 1,068 in total with the constructable design) is a build budget, to be set before any build as Amish decided on 2026-09-25 (SWC-DDR-002); it is on hold with TRL 4.
 
 > **Safety:** The pack is a 468 Wh lithium-ion battery at up to 54.6 V DC that can deliver about 500 A into a short. R11, R13 (reject a shorted INTERLOCK loop) and R14 (never charge below 0 °C, even in charge-discharge mode) are safety requirements, not conveniences.

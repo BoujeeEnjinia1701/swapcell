@@ -1,4 +1,4 @@
-"""SwapCell sizing calculations for SWC-CAL-001 v0.3 (TRL 3, constructable design, SWC-DDR-003).
+"""SwapCell sizing calculations for SWC-CAL-001 v0.4 (TRL 3, constructable design, SWC-DDR-003; decisions of 2026-10-02).
 
 Run from the repo root:  python docs/04-calcs/sizing.py
 Prints every number quoted in docs/04-calcs/01-sizing.md and writes
@@ -34,7 +34,7 @@ BODY = dict(L=340.0, W=90.0, D=80.0)   # mm
 TRAY_T = 1.5                           # mm aluminium
 FLANGE_W = 8.0                         # mm inward flange round the open front (SWC-DDR-003)
 RHO_AL = 2.70e-3                       # g/mm^3
-LID_T, RHO_LID = 3.0, 1.20e-3          # mm, g/mm^3 (flame-retardant PC/ABS class)
+LID_T, RHO_LID = 3.0, 1.20e-3          # mm, g/mm^3 (3 mm UL 94 V-0 polycarbonate sheet, decided 2026-10-02)
 CP_AL = 900.0
 HANDLE_ABOVE, PLUG_BELOW = 35.0, 18.0  # mm
 

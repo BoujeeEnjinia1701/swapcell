@@ -3,7 +3,7 @@ doc_id: SWC-PRC-001
 title: SwapCell design precis
 project: SwapCell
 doc_type: Design precis
-version: "0.6"
+version: "0.7"
 status: Draft
 date: '2026-10-02'
 author: Amish Chadha
@@ -33,11 +33,15 @@ revisions:
   date: '2026-10-02'
   author: Amish Chadha
   change: "Issue SwapCell interface v0.4 (handle zone 84 x 43 mm, catch geometry, reserved LFP chemistry code and coding key); polycarbonate sheet lid for the prototype; partner, LFP and EnergyBus decisions of 2026-10-02"
+- version: "0.7"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Approved follow-ups carried out: lid line repriced for polycarbonate sheet (cost USD 619); board temperature sensor on the rear row of cells modelled; GA SWC-DWG-002 Rev P4 shows the handle zone and catch geometry"
 ---
 
 # SwapCell design precis
 
-SwapCell is a 48 V, 10 Ah lithium-ion pack of 26 cells in a 340 x 90 x 80 mm body that drops, connector first, into a wall dock or a vehicle mount, mates through a floating blind-mate connector, and talks to whatever it is plugged into over CAN. The pack carries its own state-of-health log, so any dock can read its history. The sizing note SWC-CAL-001 confirms that the 13S2P pack of 21700 cells gives about 468 Wh at about 3.0 kg, charges in about 2.3 h on a 5 A dock, and costs about USD 436 in prototype parts, with the dock adding about USD 170. The design was made constructable on 2026-10-01 (SWC-DDR-003, open for Amish's review), and the prototype build plan SWC-BLD-001 shows how it is made. Cycle life (R9) remains at risk. Cell temperature at 20 A (R3) is handled by the temperature derating rule Amish chose on 2026-09-25 (SWC-DDR-002).
+SwapCell is a 48 V, 10 Ah lithium-ion pack of 26 cells in a 340 x 90 x 80 mm body that drops, connector first, into a wall dock or a vehicle mount, mates through a floating blind-mate connector, and talks to whatever it is plugged into over CAN. The pack carries its own state-of-health log, so any dock can read its history. The sizing note SWC-CAL-001 confirms that the 13S2P pack of 21700 cells gives about 468 Wh at about 3.0 kg, charges in about 2.3 h on a 5 A dock, and costs about USD 449 in prototype parts, with the dock adding about USD 170. The design was made constructable on 2026-10-01 (SWC-DDR-003, open for Amish's review), and the prototype build plan SWC-BLD-001 shows how it is made. Cycle life (R9) remains at risk. Cell temperature at 20 A (R3) is handled by the temperature derating rule Amish chose on 2026-09-25 (SWC-DDR-002).
 
 The interface (envelope, pinout and message set) is the core deliverable of this precis. This version issues **SwapCell interface v0.4**, which widens the handle zone and publishes the latch catch geometry (Amish, 2026-10-02), on top of v0.3, which added three items Amish approved on 2026-09-25: a wake method for hosts without CAN or a wake supply (item W), a charge-while-discharging mode (item C) and a latch vibration rating for vehicles (item V). PowerBox, SunSpoke, StepGen, WaterWalker, CargoMule, FieldCell and other designs build to it.
 
@@ -74,7 +78,7 @@ The interface (envelope, pinout and message set) is the core deliverable of this
 | 10 | Dock charger | Certified 54.6 V, 5 A CC-CV lithium-ion charger, settable to 53.3 V for fleet mode | Off-the-shelf; no custom mains electronics. Decided by Amish, 2026-09-25 |
 | 11 | Dock controller | ESP32 with CAN transceiver, charger relay, current sensor and SD card | Runs the handshake and exports logs |
 
-Items 12 (fuses, pre-charge and wiring) and 14's label are in the BOM but not modelled; items 13 (seals and fixings), 15 (latch housing and release), 16 (cell holder frames) and 17 (dock mounting parts) are modelled and shown in the build plan. Numbers match `bom/bom.csv` and Figure 4. The general arrangement is drawing SWC-DWG-002 (`cad/drawings/SWC-DWG-002.pdf`), generated from `cad/src/model.py`.
+Item 12 (fuses, pre-charge and wiring) is in the BOM but not modelled, apart from the battery board's temperature sensor on the rear row of cells; the label of item 14 is not modelled; items 13 (seals and fixings), 15 (latch housing and release), 16 (cell holder frames) and 17 (dock mounting parts) are modelled and shown in the build plan. Numbers match `bom/bom.csv` and Figure 4. The general arrangement is drawing SWC-DWG-002 (`cad/drawings/SWC-DWG-002.pdf`), generated from `cad/src/model.py`.
 
 ## Key numbers
 
@@ -98,7 +102,7 @@ All values come from SWC-CAL-001 (`docs/04-calcs/sizing.py`) and are paper estim
 | Energy per cycle | about 547 Wh from grid or solar, about 457 Wh at the pack terminals | Figure 2 | |
 | Range | about 38 to 57 km (e-bike), 18 to 30 km (loaded cargo trike) | 457 Wh at 12 to 8 Wh/km and 25 to 15 Wh/km | |
 | Cell cost | about $143, $0.31/Wh | 26 x $5.50 | |
-| Parts cost | about USD 436 per pack, USD 170 per dock, USD 606 total | `bom/bom.csv` | R16: USD 94 under the USD 700 value-engineering target |
+| Parts cost | about USD 449 per pack, USD 170 per dock, USD 619 total | `bom/bom.csv` | R16: USD 81 under the USD 700 value-engineering target |
 | Cycle life | about 300 to 500 cycles to 80 % | Typical for the cell class; higher in 4.1 V fleet mode | R9 **at risk** |
 | Sleep drain | about 0.72 % per month at 100 µA | Interface v0.3 item W | R13 met on paper |
 | CAN bus load | about 1.8 % (one pack), 3.1 % (two packs) | 34.1 frames/s at 135 bits | R12 met on paper |
@@ -285,6 +289,6 @@ Items that remain open after SWC-DDR-002. None of them is TRL 4 work to be start
 - **LFP variant.** A 16S LFP pack (about 51 V nominal, up to 58.4 V) would be safer and longer lived but heavier. PACK_LIMITS already allows a different voltage window. Decided 2026-10-02: not added now; a chemistry code and a coding key are reserved in interface v0.4 so an LFP pack can never take an NMC charge or the reverse.
 - **EnergyBus mapping.** Deferred (2026-10-02): the native SwapCell profile stays the reference; CiA 454 is read only when a partner needs EnergyBus.
 - **First co-design partner.** Left open under the portfolio rule, but an urban cargo-bike or e-bike delivery fleet is approached first, with a repair workshop second (decided 2026-10-02). Nothing is agreed.
-- **Build budget for a second pack.** Decided 2026-09-25 to settle it before any build (about USD 1,042 for two packs and one dock with the constructable design); on hold with TRL 4.
+- **Build budget for a second pack.** Decided 2026-09-25 to settle it before any build (about USD 1,068 for two packs and one dock with the constructable design); on hold with TRL 4.
 
 Concept media: [blueprint sheet](../media/concept-blueprint.pdf), [interactive 3D model](../media/viewer.html).

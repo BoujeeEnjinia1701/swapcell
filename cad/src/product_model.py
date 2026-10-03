@@ -1,14 +1,15 @@
 """SwapCell product appearance model (build123d), TRL 3.
 
 Finished-product look for photoreal renders: folded aluminium tray with bend radii and rounded
-ends, printed lid with a parting line, screws, flush wake button, state-of-charge light bar
+ends, 3 mm polycarbonate sheet lid with a parting line and eight flush countersunk screws, flush wake button, state-of-charge light bar
 behind a clear lens, interface label and rating label, carry handle with a ribbed rubber grip,
-latch pawl and thumb release, keyed plug with visible contacts; wall dock with a brushed back
-plate, cradle shelf with a status light, lead-in guides, receptacle contacts, finned charger
-with its mains cord and a controller box. A compact painted wall section gives the mounting.
+6 mm latch pawl and the thumb button behind the grip, keyed plug with visible contacts; wall dock
+with a brushed 580 mm back plate, cradle shelf with a status light, lead-in guides, steel catch,
+receptacle contacts, finned charger held by two straps, its mains cord and a controller box. A compact painted wall section gives the mounting.
 APPEARANCE MODEL ONLY: no tolerances, no fabrication detail. CONCEPT, NOT FOR FABRICATION.
 
-Every main dimension and interface comes from PARAMS in model.py. Axes as model.py: X across
+Every main dimension, fixing position and interface comes from model.py (PARAMS, derived and the
+hole tables), updated 2026-10-02 to the constructable design and interface v0.4. Axes as model.py: X across
 the pack width, Y out of the wall (wall at +Y, front of the pack at -Y), Z up along the
 insertion axis. For the renders the pack is shown part way through a swap: lifted INSERT_LIFT
 above its seated position, still between the dock guides (model.py shows it seated).
@@ -24,7 +25,8 @@ sys.path.insert(0, str(HERE))
 
 from build123d import (Align, Axis, Box, Cylinder, Plane, Pos, RectangleRounded, RegularPolygon, Rot,
                        Sphere, Text, extrude, fillet)
-from model import PARAMS
+from model import (HOLDER_SCREWS_Z, LID_SCREWS_Z, PARAMS, RIVETS_Z, STRAP_X, WALL_HOLES,  # noqa: E402
+                   build_components, derived)
 
 TITLE = "SwapCell: swappable e-bike battery pack and wall charging dock"
 
@@ -174,13 +176,16 @@ def product_parts(P=PARAMS):
 
     # blind rivets for the latch doubler, both sides near the back edge
     lz = zt - P["latch_from_top"]
+    MD = derived(P)
+    dz_ = zb - P["z0"]                              # model.py heights to the render pose
     riv = None
     for sx in (-1, 1):
-        for dz in (-14.0, 14.0):
-            x0 = sx * W / 2
-            r = Pos(x0 + sx * 0.4, 30.0, lz + dz) * Rot(0, 90, 0) * Cylinder(3.0, 0.8)
-            r = _fillet_try(r, r.faces().sort_by(Axis.X)[-1 if sx > 0 else 0].edges(), [0.35, 0.2])
+        for zr in RIVETS_Z:                         # six countersunk blind rivets, flush on the back face
+            r = _cyl_y(sx * (MD["hous_x"] + 5.0), D / 2, D / 2 + 0.3, zr + dz_, 3.4)
             riv = r if riv is None else riv + r
+    for x in (25.0, -37.0):                         # holder frame screws, countersunk from outside
+        for zr in HOLDER_SCREWS_Z:
+            riv += _cyl_y(x, D / 2, D / 2 + 0.3, zr + dz_, 2.4)
     add("Latch doubler rivets", riv, C_METAL, "metal", 13, "shell", (0, 0, EX))
 
     # rating label on the +X side, with printed lines
@@ -194,7 +199,7 @@ def product_parts(P=PARAMS):
     ink = _text(_side_plane(W / 2 + 0.35, 0.0, lzc + 39.5), "SWAPCELL", 7.0, 0.12)
     add("Rating label wordmark", ink, C_WHITE, "paper", 14, "shell", (0, 0, EX))
     lines = [("46.8 V  10 Ah  468 Wh", 4.2, 18.0), ("Li-ion 13S2P  21700", 4.2, 9.0),
-             ("Interface v0.3", 4.2, 0.0), ("CAN 250 kbit/s", 4.2, -9.0)]
+             ("Interface v0.4", 4.2, 0.0), ("CAN 250 kbit/s", 4.2, -9.0)]
     tl = None
     for txt, size, dz in lines:
         tt = _text(_side_plane(W / 2 + 0.25, 0.0, lzc + dz), txt, size, 0.12)
@@ -214,15 +219,17 @@ def product_parts(P=PARAMS):
     sz = wz - 22.0                               # charge light window
     win = Pos(0, yf - 1, sz) * extrude(Plane.XZ * RectangleRounded(44.0, 7.0, 3.0), amount=-(lid_t + 2))
     lid -= win
-    # screw counterbores (six M3 screws)
-    screw_xz = [(sx * (W / 2 - 7.0), z) for sx in (-1, 1) for z in (zb + 12.0, zc, zt - 12.0)]
+    # eight M3 countersunk screws into press-in nuts in the tray flanges, as model.py
+    xs_ = MD["xin"] - P["flange_w"] / 2
+    screw_xz = [(sx * xs_, zr + dz_) for sx in (-1, 1) for zr in LID_SCREWS_Z]
     for x, z in screw_xz:
-        lid -= _cyl_y(x, yf - 1, yf + 0.6, z, 3.1)
-    add("Pack lid", lid, C_LID, "plastic", 4, "shell", (0, -170, EX))
+        lid -= _cyl_y(x, yf - 1, yf + 0.3, z, 2.9)
+    add("Pack lid (polycarbonate sheet)", lid, C_LID, "plastic", 4, "shell", (0, -170, EX))
 
     scr = None
     for x, z in screw_xz:
-        s = _screw_y(x, yf + 0.6, z, r=2.75, h=1.4)
+        s = _cyl_y(x, yf + 0.05, yf + 0.3, z, 2.75)                     # flush countersunk head
+        s -= Pos(x, yf - 0.2, z) * Rot(90, 0, 0) * extrude(RegularPolygon(1.3, 6), amount=-0.4)
         scr = s if scr is None else scr + s
     add("Lid screws (M3)", scr, C_STEEL, "metal", 13, "shell", (0, -200, EX))
 
@@ -231,7 +238,7 @@ def product_parts(P=PARAMS):
     panel = extrude(_front_plane(0, yf, pz) * RectangleRounded(62.0, 34.0, 3.0), amount=0.4)
     add("Interface label", panel, C_ACCENT, "painted", 14, "shell", (0, -178, EX))
     mark = _text(_front_plane(0, yf - 0.4, pz + 6.0), "SWAPCELL", 8.0, 0.2)
-    sub = _text(_front_plane(0, yf - 0.4, pz - 7.0), "48 V  IF v0.3", 5.0, 0.2)
+    sub = _text(_front_plane(0, yf - 0.4, pz - 7.0), "48 V  IF v0.4", 5.0, 0.2)
     if mark is not None and sub is not None:
         mark = mark + sub
     add("Interface label print", mark, C_WHITE, "painted", 14, "shell", (0, -178, EX))
@@ -261,9 +268,9 @@ def product_parts(P=PARAMS):
 
     # ================================================================ pack internals
     # cells (BOM 2): 13S2P 21700 with axes along X, as model.py
-    cx = -W / 2 + t + 2.5 + P["cell_l"] / 2
+    cx = -41.0 + P["cell_l"] / 2                 # as model.py
     cl, cr = P["cell_l"], P["cell_d"] / 2
-    ys = (21.0, -1.0)[: P["parallel"]]
+    ys = tuple(P["cell_rows_y"])[: P["parallel"]]
     zs = [zc + (iz - (P["series"] - 1) / 2) * P["cell_pitch"] for iz in range(P["series"])]
     wrap, caps = None, None
     for z in zs:
@@ -279,8 +286,8 @@ def product_parts(P=PARAMS):
 
     # cell holders at both ends and nickel strips (BOM 12)
     hold = None
-    for xh in (cx - cl / 2 + 3.0, cx + cl / 2 - 3.0):
-        h_ = _box(xh - 3.0, xh + 3.0, -13.5, 33.5, zs[0] - 13.0, zs[-1] + 13.0)
+    for xh in (cx - cl / 2 + 4.0, cx + cl / 2 - 4.0):
+        h_ = _box(xh - 3.0, xh + 3.0, min(ys) - cr - 1.5, MD["yin_b"], zs[0] - 18.0, zs[-1] + 18.0)
         for z in zs:
             for y in ys:
                 h_ -= _cyl_x(xh - 4, xh + 4, y, z, cr + 0.2)
@@ -290,12 +297,15 @@ def product_parts(P=PARAMS):
     strips = None
     for xe in (cx - cl / 2 - 0.35, cx + cl / 2 + 0.35):
         for z in zs:
-            s_ = _box(xe - 0.3, xe + 0.3, -5.0, 25.0, z - 4.0, z + 4.0)
+            s_ = _box(xe - 0.3, xe + 0.3, min(ys) - 4.0, max(ys) + 4.0, z - 4.0, z + 4.0)
             strips = s_ if strips is None else strips + s_
     add("Nickel strips", strips, C_NICKEL, "metal", 12, "internal", ex_cells)
+    # battery board temperature sensor on the middle cell of the rear row (decision of 2026-10-02)
+    ts = build_components(P)["tsense"].shape
+    add("Board temperature sensor", Pos(0, 0, dz_) * ts, C_SHROUD, "rubber", 12, "internal", ex_cells)
 
     # BMS board (BOM 3): board on its long edge beside the cells, components toward +X
-    bx0 = W / 2 - t - 1 - P["bms_t"]            # envelope from model.py
+    bx0 = MD["xin"] - 2.0 - P["bms_t"]           # envelope from model.py
     bh, bl = P["bms_h"], P["bms_l"]
     pcb = _box(bx0, bx0 + 1.6, 7 - bh / 2, 7 + bh / 2, zc - bl / 2, zc + bl / 2)
     pcb = _fillet_try(pcb, pcb.edges().filter_by(Axis.X), [2.0, 1.0])
@@ -377,21 +387,24 @@ def product_parts(P=PARAMS):
     latch -= Pos(0, D / 2 + P["latch_proud"], lz + P["latch_h"] / 2) * Rot(45, 0, 0) * Box(P["latch_w"] + 2, 5.0, 5.0)
     ex_l = (120, 40, EX + 60)
     add("Latch pawl", latch, C_STEEL, "metal", 7, "shell", ex_l)
-    rel = Pos(0, 30.0, zt + 3.0) * Box(26.0, 12.0, 6.0)
+    # thumb button on the release slider, behind the grip, as model.py (inside the v0.4 handle zone)
+    rel = _box(-15.0, 15.0, 22.0, 38.0, zt + 8.0, zt + 16.0)
     rel = _fillet_try(rel, rel.edges().filter_by(Axis.Z) + rel.faces().sort_by(Axis.Z)[-1].edges(), [2.0, 1.2, 0.6])
     for i in range(4):
-        rel -= Pos(-6.0 + 4 * i, 30.0, zt + 6.0) * Box(1.2, 10.0, 1.2)
+        rel -= Pos(-6.0 + 4 * i, 30.0, zt + 16.0) * Box(1.2, 18.0, 1.2)
+    rel += _box(-15.0, 15.0, MD["yin_b"] - P["latch_travel"], MD["yin_b"], zt - 0.5, zt + 8.0)      # slider top
     add("Latch thumb release", rel, C_ACCENT, "plastic", 7, "shell", ex_l)
 
     # ================================================================ wall dock
     plate_y0 = D / 2 + P["plate_gap"]
     pt, ph_, pw_ = P["plate_t"], P["plate_h"], P["plate_w"]
-    plate = Pos(0, plate_y0 + pt / 2, 110) * Box(pw_, pt, ph_)
+    pz_lo, pz_hi = P["plate_z"]
+    plate = Pos(0, plate_y0 + pt / 2, (pz_lo + pz_hi) / 2) * Box(pw_, pt, pz_hi - pz_lo)
     plate = _fillet_try(plate, plate.edges().filter_by(Axis.Y), [10.0, 6.0, 3.0])
     plate = _fillet_try(plate, plate.faces().sort_by(Axis.Y)[0].edges(), [2.0, 1.0])
     add("Dock back plate", plate, C_PLATE, "metal", 8, "shell", (0, 0, 0))
     wscr = None
-    for x, z in ((-60.0, 350.0), (60.0, 350.0), (-60.0, -10.0), (60.0, -10.0)):
+    for x, z in WALL_HOLES:
         s = _screw_y(x, plate_y0, z, r=4.5, h=2.0)
         s += _cyl_y(x, plate_y0 - 0.8, plate_y0, z, 6.0)      # washer
         wscr = s if wscr is None else wscr + s
@@ -415,15 +428,17 @@ def product_parts(P=PARAMS):
     gx = W / 2 + P["guide_clear"] + gt / 2
     guides = None
     for sx in (-1, 1):
-        g = Pos(sx * gx, 10, z0 + gh / 2) * Box(gt, gd, gh)
+        gy = plate_y0 - gd / 2                    # back end on the plate, as model.py
+        g = Pos(sx * gx, gy, z0 + gh / 2) * Box(gt, gd, gh)
         g = _fillet_try(g, g.edges().filter_by(Axis.Z), [3.0, 2.0])
-        g -= Pos(sx * (gx - gt / 2), 10, z0 + gh) * Rot(0, 45, 0) * Box(11.0, gd + 2, 11.0)
-        g -= Pos(sx * (gx - gt / 2), 10 - gd / 2, z0 + gh / 2) * Rot(0, 0, 45) * Box(5.0, 5.0, gh + 2)
+        g -= Pos(sx * (gx - gt / 2), gy, z0 + gh) * Rot(0, 45, 0) * Box(P["guide_lead"] * 1.414, gd + 2, P["guide_lead"] * 1.414)
+        g -= Pos(sx * (gx - gt / 2), gy - gd / 2, z0 + gh / 2) * Rot(0, 0, 45) * Box(5.0, 5.0, gh + 2)
         guides = g if guides is None else guides + g
     add("Dock side guides", guides, C_DOCK, "plastic", 8, "shell", (0, 0, 0))
 
     # latch catch on the plate (steel), as model.py
-    catch = Pos(0, plate_y0 - 4, z0 + L - P["latch_from_top"] - 20) * Box(50.0, 8.0, 12.0)
+    cw_, cr_, ch_ = P["catch"]
+    catch = Pos(0, plate_y0 - cr_ / 2, sum(MD["catch_z"]) / 2) * Box(cw_, cr_, ch_)
     catch = _fillet_try(catch, catch.edges().filter_by(Axis.Y), [2.0, 1.0])
     add("Dock latch catch", catch, C_STEEL, "metal", 8, "shell", (0, -30, 0))
 
@@ -454,10 +469,12 @@ def product_parts(P=PARAMS):
     add("Dock charger, 54.6 V 5 A", chg, C_CHARGER, "painted", 10, "shell", ex_c)
     led = _cyl_y(cw / 2 - 16.0, cy - cd / 2 + 0.2, cy - cd / 2 + 1.2, cz + chh / 2 - 12.0, 2.4)
     add("Charger LED", led, "#22C55E", "emissive", 10, "shell", ex_c)
+    straps = build_components(P)["straps"].shape                     # two folded straps, as model.py
+    add("Charger straps", straps, C_METAL, "metal", 17, "shell", ex_c)
     clab = _text(_front_plane(-cw / 2 + 36.0, cy - cd / 2, cz + chh / 2 - 12.0), "54.6 V  5 A", 5.0, 0.2)
     add("Charger marking", clab, "#9CA3AF", "painted", 10, "shell", ex_c)
     # mains cord: gland on the underside, down and back to the wall
-    cordx = cw / 2 - 22.0
+    cordx = 30.0                     # clear of the right strap
     gl_ = Pos(cordx, cy + 8.0, cz - chh / 2 - 4.0) * Cylinder(6.0, 8.0)
     gl_ = _fillet_try(gl_, gl_.faces().sort_by(Axis.Z)[0].edges(), [1.5, 1.0])
     drop = 26.0
@@ -472,16 +489,17 @@ def product_parts(P=PARAMS):
     add("Wall cord grommet", grom, C_BOX, "plastic", None, "context", (0, 0, 0))
 
     # dock controller (BOM 11): small enclosure with a parting line, LED and microSD slot
-    ctl = Pos(85, 15, 25) * Box(50.0, 50.0, 30.0)
-    ctl = _fillet_try(ctl, ctl.edges().filter_by(Axis.Z), [5.0, 3.0])
-    ctl = _fillet_try(ctl, ctl.faces().sort_by(Axis.Z)[-1].edges(), [2.0, 1.0])
-    ctl -= _box(58.0, 112.0, -12.0, 42.0, 31.7, 32.3) - _box(60.6, 109.4, -9.4, 39.4, 30.0, 34.0)
-    ctl -= _box(78.0, 92.0, -11.0, -8.0, 14.0, 16.0)
+    # on the plate between the charger and the shelf, as model.py (50 x 50 x 30 box on two M4 screws)
+    ky0 = plate_y0 - 50.0
+    ctl = _box(-25.0, 25.0, ky0, plate_y0, -25.0, 5.0)
+    ctl = _fillet_try(ctl, ctl.edges().filter_by(Axis.Y), [4.0, 2.0])
+    ctl = _fillet_try(ctl, ctl.faces().sort_by(Axis.Y)[0].edges(), [2.0, 1.0])
+    ctl -= _box(-8.0, 6.0, ky0 - 1.0, ky0 + 2.0, -22.0, -20.0)                       # microSD slot
     ex_k = (130, -60, 0)
     add("Dock controller enclosure", ctl, C_BOX, "plastic", 11, "shell", ex_k)
-    kled = _cyl_y(100.0, -10.3, -9.0, 22.0, 1.8)
+    kled = _cyl_y(15.0, ky0 - 0.3, ky0 + 1.0, -8.0, 1.8)
     add("Controller status LED", kled, C_LIGHT, "emissive", 11, "shell", ex_k)
-    klab = _text(_front_plane(80.0, -10.0, 25.0), "CAN", 5.0, 0.2)
+    klab = _text(_front_plane(-6.0, ky0, -8.0), "CAN", 5.0, 0.2)
     add("Controller marking", klab, C_ACCENT, "painted", 11, "shell", ex_k)
 
     # ================================================================ context (not in the BOM)

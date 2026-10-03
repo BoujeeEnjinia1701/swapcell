@@ -3,9 +3,9 @@ doc_id: SWC-CAL-001
 title: SwapCell sizing and interface v0.3 calculations
 project: SwapCell
 doc_type: Calculation note
-version: "0.3"
+version: "0.4"
 status: Draft
-date: '2026-10-01'
+date: '2026-10-02'
 author: Amish Chadha
 license: CERN-OHL-S-2.0
 revisions:
@@ -21,6 +21,10 @@ revisions:
   date: '2026-10-01'
   author: Amish Chadha
   change: Constructable design (SWC-DDR-003) mass, thermal and cost; budget treated as a value-engineering target
+- version: "0.4"
+  date: '2026-10-02'
+  author: Amish Chadha
+  change: "Approved follow-ups of 2026-10-02: lid cut from 3 mm UL 94 V-0 polycarbonate sheet (BOM line 4 USD 25, total USD 619, USD 81 under the target); mass unchanged; no requirement status changed"
 ---
 
 # SwapCell sizing and interface v0.3 calculations
@@ -124,11 +128,11 @@ The v0.3 message set sends about 34.1 frames per second per pack, a bus load of 
 
 | Group | Items | Cost (USD) |
 | --- | --- | --- |
-| One pack | 1 to 7, 12 to 16 | 436 |
+| One pack | 1 to 7, 12 to 16 | 449 |
 | One wall dock | 8 to 11, 17 | 170 |
-| **Total** | 1 to 17 | **606** |
+| **Total** | 1 to 17 | **619** |
 
-Value-engineering target: USD 700 (`budget_usd`, a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 606 (USD 94 under the target). Making the design buildable added USD 47: the latch housing, release slider and springs (line 15), the dock mounting parts (line 17), the longer back plate and more fixings (SWC-DDR-003). Cells are about $143, or $0.31 per Wh. Per the portfolio rule (SWC-DDR-001), this is the only place a SwapCell pack is priced.
+Value-engineering target: USD 700 (`budget_usd`, a hypothetical control target, not a limit). Estimated cost of the constructable design: USD 619 (USD 81 under the target). Making the design buildable added USD 47: the latch housing, release slider and springs (line 15), the dock mounting parts (line 17), the longer back plate and more fixings (SWC-DDR-003). The decision of 2026-10-02 to cut the lid from 3 mm UL 94 V-0 polycarbonate sheet added USD 13 (line 4, USD 25, was USD 12); the lid's mass is unchanged, as the sheet has the same density assumed before. Cells are about $143, or $0.31 per Wh. Per the portfolio rule (SWC-DDR-001), this is the only place a SwapCell pack is priced.
 
 ## 9. Results against requirements
 
@@ -151,7 +155,7 @@ Value-engineering target: USD 700 (`budget_usd`, a hypothetical control target, 
 | R12 | Bus load 1.8 %; log 62.5 KiB in about 10 s | CAN 250 kbit/s, 2,000 records, CSV export | Met (on paper) |
 | R13 | Sleep drain 0.72 % per month; coded INTERLOCK at 0.30 V | Wake with no host supply; 1 % per month or less | Met (on paper) |
 | R14 | Net 3.8 A charge in the PowerBox case, within 5.0 A | Charge-discharge mode within limits | Met (on paper) |
-| R16 | USD 606 for one pack and one dock | USD 700 value-engineering target | Under the target by USD 94 |
+| R16 | USD 619 for one pack and one dock | USD 700 value-engineering target | Under the target by USD 81 |
 
 ## 10. Checks against earlier documents
 

@@ -71,7 +71,7 @@ Full design precis: [docs/02-concept.md](docs/02-concept.md) · Sizing note: [do
 - Latch pawl rated for vehicle class V1
 - ESP32 dock controller
 
-The priced bill of materials is in [bom/bom.csv](bom/bom.csv). Value-engineering target: USD 700. Estimated cost of the constructable design: USD 606 for one pack and one dock (USD 94 under the target).
+The priced bill of materials is in [bom/bom.csv](bom/bom.csv). Value-engineering target: USD 700. Estimated cost of the constructable design: USD 619 for one pack and one dock (USD 81 under the target).
 
 ## Building the prototype
 

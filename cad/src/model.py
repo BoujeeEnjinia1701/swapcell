@@ -4,8 +4,8 @@ Run from the repo root:  python cad/src/model.py          exports STEP and STL, 
                          python cad/src/model.py --check  prints the constructability checks only
 
 Every component is modelled as it is made or bought, with its fixings, so that the build plan
-pictures (cad/src/build_plan_media.py) and the drawings come from one source. Interface v0.3
-dimensions are parameters. Not fabrication detail: no tolerances before TRL 4.
+pictures (cad/src/build_plan_media.py) and the drawings come from one source. Interface v0.4
+dimensions are parameters (handle zone and catch geometry published 2026-10-02). Not fabrication detail: no tolerances before TRL 4.
 
 Axes: X across the pack width, Y out of the wall (the wall is at +Y; the pack back face and
 latch face +Y, the lid -Y), Z up along the insertion axis. The pack is shown docked,
@@ -19,15 +19,16 @@ from build123d import Box, Compound, Cylinder, Pos, Rot, export_step, export_stl
 
 # Top-level parameters (mm). Edit these, not the geometry below.
 PARAMS = {
-    # Interface envelope (SWC-PRC-001 v0.3, R6)
+    # Interface envelope (SWC-PRC-001, interface v0.4, R6)
     "pack_w": 90.0, "pack_d": 80.0, "pack_l": 340.0,
     "tray_t": 1.5,            # folded aluminium tray wall
-    "lid_t": 3.0,             # flame-retardant lid on the front (-Y) face
+    "lid_t": 3.0,             # 3 mm UL 94 V-0 polycarbonate sheet lid on the front (-Y) face (decided 2026-10-02)
     "gasket_t": 1.0,          # flat gasket between the lid and the tray flanges, compressed
     "flange_w": 8.0,          # inward flange round the open front of the tray (DDR-003 P2)
     "plug_w": 56.0, "plug_d": 34.0, "plug_h": 18.0,
     "plug_offset_y": 8.0,     # connector toward the back face from the depth centre line
     "handle_w": 84.0, "handle_d": 22.0, "handle_h": 35.0, "grip_clear": 25.0,
+    "handle_zone": (84.0, 43.0),   # interface v0.4: width, depth from the zone's front edge to the back face
     "latch_w": 36.0, "latch_from_top": 45.0, "latch_proud": 6.0, "latch_h": 24.0,
     "latch_travel": 5.0,      # pawl retracts this far when the thumb button is pressed (DDR-003 P4)
     "guide_clear": 1.0,       # receiver guide clearance per side
@@ -187,6 +188,10 @@ def build_components(p=PARAMS):
     add("bms", "BMS board with CAN", bms, 3, "bought", "bms")
     so = fuse([xcyl(bx0 + p["bms_t"], xin, y, z, 2.5) for y, z in BMS_POS])
     add("bms_so", "BMS standoffs (4)", so, 13, "fixing", "bms")
+    # board temperature sensor (NTC bead in a 3 mm sleeve) taped along the middle cell of the rear row,
+    # on its back side, now the row furthest from the lid and the warmest (decision of 2026-10-02, SWC-DDR-003 A4)
+    ry = max(p["cell_rows_y"]) + p["cell_d"] / 2 + 1.5
+    add("tsense", "Board temperature sensor (NTC)", xcyl(-10.0, 10.0, ry, zc, 1.5), 12, "bought", "bms")
 
     # ---------------- 4 lid, gasket and wake button
     ylf = D["yfront"]
@@ -460,6 +465,10 @@ def checks(p=PARAMS):
     chk("BMS on its standoffs", S("bms"), S("bms_so"), "touch")
     chk("BMS standoffs on the side wall", S("bms_so"), S("tray"), "touch")
     chk("BMS clear of the latch housing", S("bms"), S("housing"), 1.0)
+    chk("Board temperature sensor on a rear-row cell", S("tsense"), S("cells"), "touch")
+    chk("Board temperature sensor clear of the tray and housing", S("tsense"), S("tray") + S("housing"), 3.0)
+    ts = S("tsense").center().Y
+    rows.append(("Board temperature sensor on the rear row (behind the cell centre)", 0.0, ts, 0.0, ts > 0.0))
     chk("Gasket on the tray flanges", S("gasket"), S("tray"), "touch")
     chk("Lid on the gasket", S("lid"), S("gasket"), "touch")
     chk("Lid clear of the tray (gasket between)", S("lid"), S("tray"), 0.9)
@@ -515,6 +524,17 @@ def checks(p=PARAMS):
     rows.append(("Pawl tooth under the catch, depth of engagement", 0.0, engage, 4.0, engage >= 4.0 - 1e-6))
     clear = (p["plate_gap"] - cr) - (pr - p["latch_travel"])
     rows.append(("Retracted pawl clear of the catch", 0.0, clear, 1.0, clear >= 1.0 - 1e-6))
+    # interface v0.4 catch geometry, as published (SWC-PRC-001)
+    face = D["catch_z"][0] - (D["zlatch"] + p["latch_h"] / 2)
+    rows.append(("Catch latching face 1 mm above the pawl (v0.4)", 0.0, face, 1.0, abs(face - 1.0) < 1e-6))
+    rows.append(("Catch reach 8 mm from the plate (v0.4)", 0.0, cr, 8.0, abs(cr - 8.0) < 1e-6))
+    rows.append(("Pawl projection 6 mm, travel 5 mm (v0.4)", 0.0, pr, 6.0, abs(pr - 6.0) < 1e-6 and abs(p["latch_travel"] - 5.0) < 1e-6))
+    # interface v0.4 handle zone: everything above the top end lies inside 84 x 43 mm, front edge to back face
+    zw, zd = p["handle_zone"]
+    above = (S("handle") + S("thumb") + S("handle_screws")) & bx(-200, 200, -200, 200, D["ztop"] + 0.01, 1000)
+    hb = above.bounding_box()
+    inside = hb.min.X >= -zw / 2 - 1e-6 and hb.max.X <= zw / 2 + 1e-6 and hb.min.Y >= D["yback"] - zd - 1e-6 and hb.max.Y <= D["yback"] + 1e-6
+    rows.append(("Handle and thumb button inside the 84 x 43 mm handle zone (v0.4)", 0.0, D["yback"] - hb.min.Y, zd, inside))
     # envelope
     body = (S("tray") + S("lid") + S("gasket")).bounding_box()
     for ax, want in (("X", p["pack_w"]), ("Y", p["pack_d"]), ("Z", p["pack_l"])):
